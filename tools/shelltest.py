@@ -37,7 +37,7 @@ def run(script: str, *args: str, cwd: str | Path | None = None, stdin: str = "")
         path = Path(cwd or Path.cwd()) / path
     if not path.exists():
         raise FileNotFoundError(path)
-    proc = subprocess.run(  # noqa: S603
+    proc = subprocess.run(
         ["bash", str(path), *args],
         capture_output=True,
         text=True,
