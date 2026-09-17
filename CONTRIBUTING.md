@@ -27,6 +27,13 @@ is that in six months I will want to cut corners, and this file will be here.
 - A solution I could not reproduce tomorrow on a blank file.
 - "Non-claims: none." There are always non-claims.
 
+## Before you know Python
+
+Weeks one and two are shell and git, and a module still needs real tests. Use
+`tools/shelltest.py`: exercises are `.sh` scripts, and the test asserts on their exit code
+and output. The standard above is unchanged — a shell module still needs a counter-example,
+failure modes and a measurement section.
+
 ## The real test
 
 Two weeks after finishing a module, open only its `INTERVIEW.md` question and answer out
