@@ -1,0 +1,21 @@
+name: modules
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest ruff
+      - name: Run every module's tests
+        run: pytest modules -q
+      - name: Lint
+        run: ruff check modules tools
+      - name: Check module standard
+        run: python tools/status.py --check
