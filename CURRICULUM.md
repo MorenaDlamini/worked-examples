@@ -1,6 +1,6 @@
 # Curriculum
 
-The plan for doing, and proving I can do, the work in three specific OpenAI postings.
+The plan for doing, and proving I can do, what senior systems engineering actually requires.
 Evidence rather than claims.
 
 Written 2026-09-17. Reassess at every phase gate and in every `horizon/` entry.
@@ -13,24 +13,34 @@ and not before. How long that takes is an output of the work, not an input to it
 
 I ship software that people at work depend on — field-service tooling, a data pipeline
 between two systems that disagree, an internal platform behind single sign-on. This file
-gives that work a direction: the systems problems where data infrastructure, API design and
-security overlap. It exists so that every module, every slice of `minicloud`, and every
-decision record answers to one target rather than to whatever looked interesting that week.
+gives that work a direction: the requirements below. It exists so that every module, every
+slice of `minicloud`, and every decision record answers to one list rather than to whatever
+looked interesting that week.
 
-## The target
+## The requirements
 
-| Role | Stated bar |
-|---|---|
-| Software Engineer, Data Infrastructure (SF) | 4+ years |
-| Full-Stack Software Engineer, API Experience (NYC) | 5+ years, explicitly excluding internships |
-| Full-Stack Software Engineer, Cybersecurity Products (SF) | shipping production full-stack products |
+Taken from senior postings read in full — see `research/` — and reduced to what they have in
+common. The list is stable across them and it is mostly *not* about languages; only one of
+the postings names a language at all.
 
-The bars are production experience, so the plan is built to produce it — Phase 7 exists for
-exactly that. No repository substitutes for it; `NON-CLAIMS.md` says the same thing from the
-other side.
+- Production experience, not project experience
+- Designing and operating APIs and services
+- Reliability as an owned responsibility, including on-call
+- Data modelling and storage
+- Reasoning about distributed and asynchronous systems
+- Working with ambiguity and rapid change — every posting says this in near-identical words
+- Clear written and spoken communication
+- Security and correctness judgment
 
-The stack — Python, JavaScript / TypeScript, React, Postgres — is the stack these three
-postings and their nearer siblings name. I chose it after reading the postings.
+The first item is the bar, and the plan is built to produce it — Phase 7 exists for exactly
+that. No repository substitutes for it; `NON-CLAIMS.md` says the same thing from the other
+side.
+
+Notably absent: **ML or AI expertise.** Where it is mentioned at all it is explicitly waived.
+I should stop treating "learn AI" as the path into systems work.
+
+The stack — Python, JavaScript / TypeScript, React, Postgres — is the one the postings name
+most often. I chose it after reading them.
 
 ## What this file is
 
@@ -53,23 +63,6 @@ postings and their nearer siblings name. I chose it after reading the postings.
 4. **Did it pass?** — the exit test, on a day I did not choose
 
 A phase that answers three of the four is not finished.
-
-## What all three roles have in common
-
-This is the list worth optimising against, because it is stable across all three and it is
-mostly *not* about languages. Only one of the three postings names a language at all.
-
-- Production experience, not project experience
-- Designing and operating APIs and services
-- Reliability as an owned responsibility, including on-call
-- Data modelling and storage
-- Reasoning about distributed and asynchronous systems
-- Working with ambiguity and rapid change — all three say this in near-identical words
-- Clear written and spoken communication
-- Security and correctness judgment
-
-Notably absent: **ML or AI expertise is not required by any of them.** Two explicitly waive
-it. I should stop treating "learn AI" as the path into an AI company.
 
 ## The shape: two repositories
 
@@ -101,14 +94,16 @@ Plus **a web console** in TypeScript and React, and **a CLI**.
 
 ### Why this project and not another
 
-It is the only single artifact I could find that produces honest evidence for all three
-target roles at once:
+It is the only single artifact I could find that exercises the whole requirements list at
+once:
 
-| Role | What `minicloud` forces me to actually do |
+| Requirement | What `minicloud` forces me to actually do |
 |---|---|
-| Data Infrastructure | Storage engines, durability, partitioning, offsets, compaction, benchmarks, the cost of a bad data model |
-| API Experience | HTTP semantics, error design, idempotency, pagination, rate limits, versioning, an SDK someone else could use |
-| Cybersecurity Products | Request signing, policy evaluation, authorisation bugs, audit logging, and building the detections that catch abuse of my own system |
+| Data modelling and storage | Storage engines, durability, partitioning, offsets, compaction, benchmarks, the cost of a bad data model |
+| Designing and operating APIs | HTTP semantics, error design, idempotency, pagination, rate limits, versioning, an SDK someone else could use |
+| Security and correctness judgment | Request signing, policy evaluation, authorisation bugs, audit logging, and building the detections that catch abuse of my own system |
+| Distributed and asynchronous reasoning | Ordering, replay, delivery semantics, late data, and what a crash mid-write leaves behind |
+| Reliability as an owned responsibility | Phase 6 — operating it, breaking it, and writing down what happened |
 
 It also fails usefully. An emulator has an oracle — the real service it emulates — so
 "is my behaviour correct" has an answer that is not my opinion. That is rare in learning
@@ -183,8 +178,7 @@ Where `minicloud` starts.
 |---|---|---|
 | JavaScript fundamentals; TypeScript; the type system as a design tool; React; state; data fetching; forms and validation; build tooling; end-to-end testing | The console: browse buckets, upload, view objects, see errors honestly | The console surfaces a server error in a way a stranger could act on |
 
-This phase is what makes "full-stack" — the word in two of the three postings — a claim I can
-defend rather than a line on a CV.
+This phase is what makes "full-stack" a claim I can defend rather than a line on a CV.
 
 ### Phase 4 — Data infrastructure depth
 
@@ -215,16 +209,16 @@ operating — it overlaps every phase after Phase 2, and it does not end.
 
 ### Phase 7 — Production experience, which is the actual bar
 
-Every posting asks for years of production work. Phases 0–6 sharpen it and give me the
-evidence to show for it; they cannot substitute for it, and this file will not pretend they
-can. So this phase is explicit work, not waiting:
+The requirements list starts with years of production work. Phases 0–6 sharpen it and give
+me the evidence to show for it; they cannot substitute for it, and this file will not pretend
+they can. So this phase is explicit work, not waiting:
 
 - **Treat the job as the curriculum's main campus.** The production experience I have is
   real — technicians, payroll, a company behind one login — and it is the only kind that
-  counts. Pull the work toward the target on purpose: the system boundaries, the auth, the
+  counts. Pull the work toward the list on purpose: the system boundaries, the auth, the
   data that has to be right.
-- **Own something on-call.** Reliability as an owned responsibility is on all three lists and
-  is the single hardest item to get outside a job.
+- **Own something on-call.** Reliability as an owned responsibility is on the list and is the
+  single hardest item to get outside a job.
 - **Widen the consequences.** Real users is already true. Real money and real scale behind
   the same systems is the next line of "what this will not prove", and it is crossed off the
   only way it can be.
@@ -234,12 +228,12 @@ can. So this phase is explicit work, not waiting:
   open good-first-issue that already has a PR on it. Its sibling `testcontainers-floci` is
   57 stars with the same maintainers, which is a room where a newcomer is visible rather than
   noise. Any small, active, well-tested project with a real CONTRIBUTING file will do.
-- **Depth over breadth, in public.** These postings reward someone who has gone unreasonably
-  deep into storage, APIs or security — not someone who has touched all three lightly.
-  Phases 4 and 5 decide which one; this phase lives there.
+- **Depth over breadth, in public.** The requirements reward someone who has gone
+  unreasonably deep into storage, APIs or security — not someone who has touched all three
+  lightly. Phases 4 and 5 decide which one; this phase lives there.
 
-The gate on this phase, and on the curriculum, is the application itself: I meet the stated
-bar of one of the three postings, in years and in kind, and the evidence is public.
+The gate on this phase, and on the curriculum, is meeting the list — in years and in kind —
+with the evidence public.
 
 ## Practices that mimic actual work
 
@@ -275,7 +269,7 @@ The exercise is not to fix it. It is to write down: what I would ask before star
 I would measure first, what I think the three plausible causes are, and which one I would
 rule out most cheaply. Then do that. Then record where my guess was wrong.
 
-Ambiguity tolerance is named in all three postings. This is how it gets practised.
+Ambiguity tolerance is on the requirements list. This is how it gets practised.
 
 ### Incidents — every other week
 
@@ -305,9 +299,9 @@ these; Phase 7 is the only thing that touches them, which is why it is on the pa
 ## When to reassess
 
 - **At every phase gate.** Did the exit test pass, honestly, or did I talk myself past it?
-- **Every `horizon/` entry.** Re-read the three postings. Have the requirements moved? Roles
-  get reposted, retitled and reworded; the versions in `research/` are snapshots and will go
-  stale. Track what the current ones ask for.
+- **Every `horizon/` entry.** Re-read the postings the requirements came from. Has the list
+  moved? Roles get reposted, retitled and reworded; the versions in `research/` are snapshots
+  and will go stale. Track what current ones ask for.
 - **If an exit test fails three attempts running.** That is information about the plan, not
   about me. Cut the scope of the phase rather than the standard of the test; a narrower
   phase finished beats a broader one abandoned.
@@ -315,7 +309,7 @@ these; Phase 7 is the only thing that touches them, which is why it is on the pa
 
 ## Sources
 
-- `research/2026-09-17-openai-target-roles.md` — the three postings and OpenAI's own
-  interview guide, with URLs
+- `research/2026-09-17-openai-target-roles.md` — the postings the requirements were reduced
+  from, with URLs
 - `research/2026-09-17-floci-local-build.md` — what floci is, and why it is a better model
   than a target
