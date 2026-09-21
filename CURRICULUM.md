@@ -1,18 +1,23 @@
 # Curriculum
 
-A day-to-day plan from where I am now — a beginner — to the point where I can do, and prove
-I can do, the work in three specific OpenAI postings. Evidence rather than claims.
+The plan for doing, and proving I can do, the work in three specific OpenAI postings.
+Evidence rather than claims.
 
 Written 2026-09-17. Reassess at every phase gate and in every `horizon/` entry.
 This file is allowed to be wrong. It is not allowed to be vague.
 
 **No dates, no week counts, no estimated finish.** A phase is over when its exit test passes,
-and not before. How long that takes is an output of the work, not an input to it. Anyone who
-tells me the number — including me on a confident day — is guessing.
+and not before. How long that takes is an output of the work, not an input to it.
+
+## Why this file exists
+
+I ship software that people at work depend on — field-service tooling, a data pipeline
+between two systems that disagree, an internal platform behind single sign-on. This file
+gives that work a direction: the systems problems where data infrastructure, API design and
+security overlap. It exists so that every module, every slice of `minicloud`, and every
+decision record answers to one target rather than to whatever looked interesting that week.
 
 ## The target
-
-These three, and this file exists to reach them:
 
 | Role | Stated bar |
 |---|---|
@@ -20,15 +25,34 @@ These three, and this file exists to reach them:
 | Full-Stack Software Engineer, API Experience (NYC) | 5+ years, explicitly excluding internships |
 | Full-Stack Software Engineer, Cybersecurity Products (SF) | shipping production full-stack products |
 
-They are senior. That is a statement about what has to be built, not about whether to aim
-here. The bars are years of *production* experience, so the plan has to produce production
-experience — that is what Phase 7 is for, and it is the reason it is a phase rather than a
-footnote. No repository, however good, substitutes for it. Pretending otherwise would be the
-exact failure mode `NON-CLAIMS.md` exists to prevent.
+The bars are production experience, so the plan is built to produce it — Phase 7 exists for
+exactly that. No repository substitutes for it; `NON-CLAIMS.md` says the same thing from the
+other side.
 
-The stack the curriculum teaches — Python, JavaScript / TypeScript, React, Postgres — is the
-stack these three postings and their nearer siblings name. That is not a coincidence; I chose
-it after reading the postings.
+The stack — Python, JavaScript / TypeScript, React, Postgres — is the stack these three
+postings and their nearer siblings name. I chose it after reading the postings.
+
+## What this file is
+
+- The phases, in order, each with the exit test that ends it
+- The spine project, and the rule that keeps it honest
+- The daily and weekly loop
+- The practices that mimic actual work rather than technique
+
+## What this file is not
+
+- A schedule
+- A CV — production proof lives in separate build repositories
+- A record of what I have done; `worked-examples` modules and `decisions/` are that
+
+## What every phase has to answer
+
+1. **Can I build it?** — the `minicloud` slice
+2. **Can I explain it cold?** — the module's `INTERVIEW.md`, answered aloud before reading
+3. **Do I know how it fails?** — the module's non-claims and `NOTES.md`
+4. **Did it pass?** — the exit test, on a day I did not choose
+
+A phase that answers three of the four is not finished.
 
 ## What all three roles have in common
 
@@ -191,17 +215,19 @@ operating — it overlaps every phase after Phase 2, and it does not end.
 
 ### Phase 7 — Production experience, which is the actual bar
 
-Every posting asks for years of production work. Phases 0–6 make me *capable* of it and give
-me the evidence to be let near it; they cannot substitute for it, and this file will not
-pretend they can. So this phase is explicit work, not waiting:
+Every posting asks for years of production work. Phases 0–6 sharpen it and give me the
+evidence to show for it; they cannot substitute for it, and this file will not pretend they
+can. So this phase is explicit work, not waiting:
 
-- **Get paid to write software**, at whatever level will have me, and treat that job as the
-  curriculum's main campus. Production experience is something employers hand out, and the
-  first one hands it out at a lower bar than these three do.
+- **Treat the job as the curriculum's main campus.** The production experience I have is
+  real — technicians, payroll, a company behind one login — and it is the only kind that
+  counts. Pull the work toward the target on purpose: the system boundaries, the auth, the
+  data that has to be right.
 - **Own something on-call.** Reliability as an owned responsibility is on all three lists and
   is the single hardest item to get outside a job.
-- **Ship to real users, with real money and real consequences behind it** — the top line of
-  "what this will not prove", crossed off the only way it can be.
+- **Widen the consequences.** Real users is already true. Real money and real scale behind
+  the same systems is the next line of "what this will not prove", and it is crossed off the
+  only way it can be.
 - **Sustained contribution to code I did not write.** Begins once Phase 3's exit test passes;
   before that I cannot read a stranger's codebase fast enough for it to be contribution
   rather than charity. Not floci itself — 4,430 Java files, PRs past #3800, and exactly one
