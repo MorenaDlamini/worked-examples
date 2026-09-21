@@ -51,7 +51,7 @@ it. I should stop treating "learn AI" as the path into an AI company.
 
 `NON-CLAIMS.md` already says production proof belongs in a separate build repository, so:
 
-- **`learn-in-public`** (this repo) — understanding. Modules, tiers, exercises, tests,
+- **`worked-examples`** (this repo) — understanding. Modules, tiers, exercises, tests,
   interview answers. Unchanged.
 - **`minicloud`** (new repo) — proof. One system, built slowly, operated badly at first and
   then better. Rename it to whatever I like; the name matters less than it being *one*
@@ -134,8 +134,8 @@ The repo already supports this via `tools/shelltest.py` and the note in `CONTRIB
 |---|---|
 | Shell navigation and pipes; grep, sed, cut on real log files; git branching and history; GitHub, remotes and CI | This repo is on GitHub, CI is green on a push I made, and I can explain what the workflow file does line by line |
 
-**Blocker to clear first:** this repo currently has no git remote and its CI has therefore
-never run. The badge premise is unproven until it does.
+**Status:** the remote exists and CI ran green on a push I made, 2026-09-21. What remains
+of this exit test is the last clause — explaining the workflow file line by line.
 
 ### Phase 1 — Python that holds up
 

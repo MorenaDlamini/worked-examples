@@ -1,4 +1,6 @@
-# learn-in-public
+# worked-examples
+
+[![modules](https://github.com/MorenaDlamini/worked-examples/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/MorenaDlamini/worked-examples/actions/workflows/ci.yml)
 
 A self-verifying learning repository. Every topic I study becomes a **module**: a written
 lesson, a set of failing tests, my solutions, and an honest note about what I still cannot do.
