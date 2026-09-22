@@ -6,8 +6,9 @@ A weekly exercise in the part of the job that is not typing.
 
 Exercises arrive as a specification with a known answer. Work does not. Work arrives as a
 sentence from someone who wants an outcome, is not sure what is wrong, and is sometimes
-confidently wrong about the cause. All three target roles name ambiguity explicitly — "thrive
-in ambiguity", "rapidly changing environment" — and no amount of passing tests practises it.
+confidently wrong about the cause. Every target role names ambiguity explicitly — "loosely
+defined problems", "rapidly changing environment", "own the outcome, not just the code" — and
+no amount of passing tests practises it.
 
 ## The method
 
@@ -37,10 +38,10 @@ Step five is the whole exercise. A scenario where my first guess was right taugh
 
 ## Starter scenarios
 
-Written against `minicloud`. Add more as the system grows; the best ones come from things
-that actually surprised me.
+Written against `product` and `platform`. Add more as the systems grow; the best ones come
+from things that actually surprised me.
 
-**001 — "Uploads are slow for the Johannesburg office."**
+**001 — "The site is slow for the Johannesburg office."**
 No numbers, no timeframe, one complainant. Slow compared with what?
 
 **002 — "Can we get a report of everything user X did last month?"**
@@ -50,13 +51,23 @@ records enough to answer the question. It probably does not.
 **003 — "The nightly job finished in four minutes yesterday and forty this morning."**
 Nothing was deployed. Something changed anyway.
 
-**004 — "A customer says they uploaded a file and it is not there."**
+**004 — "A user says they saved a view and it is not there."**
 Exactly one report. The logs show a 200. Both of those facts can be true at once.
 
 **005 — "Security wants us to log every request. Can you add that by Friday?"**
 A reasonable request with an unreasonable second-order cost. The exercise is the conversation,
 not the logging.
 
-**006 — "Can you make the console show which files changed recently?"**
-The data model does not record modification time. The feature is an afternoon; the migration
-is not.
+**006 — "Can the explorer show which figures Treasury has restated?"**
+The data model does not record versions. The feature is an afternoon; the migration is not.
+
+**007 — "Finance says the gold total is R40k off from the source."**
+Gold, the source, and the site disagree with each other. At least one of them is right. The
+parity report says everything passed.
+
+**008 — "The nightly Spark job costs three times what it did last month."**
+Same code, same schedule, same data volume as far as anyone knows. The bill disagrees.
+
+**009 — "The source added a column and nobody told us."**
+Discovered because a downstream report went blank. The pipeline did not fail. That is the
+problem.

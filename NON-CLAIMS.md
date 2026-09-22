@@ -10,6 +10,8 @@ This repository does **not** demonstrate:
 - Working within an existing codebase I did not write.
 - Collaboration: code review given and received, disagreement resolved, a design defended.
 - Scale. Nothing here has met a dataset large enough to be interesting.
+- Operating a data platform at the scale the postings name. The build repositories are the
+  laptop-and-one-VM-sized versions of what those systems do.
 - That I can do any of this without an assistant available. That is what the
   reproduce-from-scratch check in `AI_USAGE.md` exists to counter, imperfectly.
 

@@ -1,120 +1,194 @@
 # Curriculum
 
-The plan for doing, and proving I can do, what senior systems engineering actually requires.
-Evidence rather than claims.
+The plan for becoming, and proving I am, competent across four pillars: full-stack software
+engineering, data, applied AI, and security. Data is the deep one. Evidence rather than claims.
 
-Written 2026-09-17. Reassess at every phase gate and in every `horizon/` entry.
-This file is allowed to be wrong. It is not allowed to be vague.
+Written 2026-09-17. Rebuilt 2026-09-22 around the roles in `research/`. Reassess at every
+phase gate and in every `horizon/` entry. This file is allowed to be wrong. It is not allowed
+to be vague.
 
 **No dates, no week counts, no estimated finish.** A phase is over when its exit test passes,
 and not before. How long that takes is an output of the work, not an input to it.
 
 ## Why this file exists
 
-I ship software that people at work depend on — field-service tooling, a data pipeline
-between two systems that disagree, an internal platform behind single sign-on. This file
-gives that work a direction: the requirements below. It exists so that every module, every
-slice of `minicloud`, and every decision record answers to one list rather than to whatever
-looked interesting that week.
+Production work counts wherever it happens, and I have some. What it does not give me on its
+own is a direction. This file is the direction: four pillars, two systems, and one list of
+requirements taken from postings read in full. It exists so that every module, every slice of
+the two systems, and every decision record answers to that list rather than to whatever looked
+interesting that week.
 
 ## The requirements
 
-Taken from senior postings read in full — see `research/` — and reduced to what they have in
-common. The list is stable across them and it is mostly *not* about languages; only one of
-the postings names a language at all.
+Taken from postings read in full — see `research/` — and reduced to what they agree on. The
+list is mostly about verbs: build, operate, integrate, review, explain.
 
-- Production experience, not project experience
-- Designing and operating APIs and services
-- Reliability as an owned responsibility, including on-call
-- Data modelling and storage
-- Reasoning about distributed and asynchronous systems
-- Working with ambiguity and rapid change — every posting says this in near-identical words
-- Clear written and spoken communication
-- Security and correctness judgment
+1. Production experience, stated in years
+2. Python as the primary backend, typed and tested — `pytest`, Pyright, `uv`
+3. Designing and operating REST APIs, including auth, idempotency and job status
+4. Docker, CI/CD, and a cloud; AWS and Azure are both named
+5. Integrating LLM features: calling model APIs, retrieval-augmented generation, vector search
+6. Using coding assistants, and critically reviewing what they produce
+7. Working from specs, design docs and ADRs; code review; clear communication; mentoring
+8. Relational modelling on Postgres; Spark, Delta, and replatforming legacy SQL with parity
+   evidence
+9. Observability, and resolving incidents in production
+10. Security and privacy judgment inside the product: OAuth2 and OIDC, secrets, POPIA
 
-The first item is the bar, and the plan is built to produce it — Phase 7 exists for exactly
-that. No repository substitutes for it; `NON-CLAIMS.md` says the same thing from the other
-side.
+The first item is the bar. No repository substitutes for it; `NON-CLAIMS.md` says the same
+thing from the other side, and Phase 9 exists for it.
 
-Notably absent: **ML or AI expertise.** Where it is mentioned at all it is explicitly waived.
-I should stop treating "learn AI" as the path into systems work.
+Three things the postings made me change my mind about:
 
-The stack — Python, JavaScript / TypeScript, React, Postgres — is the one the postings name
-most often. I chose it after reading them.
+- **AI is required, not waived.** Two of three make LLM integration a must. Applied AI
+  engineering — building products on model APIs — is a pillar. Model research and training are
+  not.
+- **Security is not a track.** None of the roles has one. It is auth protocols, secrets,
+  privacy law and correctness, inside the product. That is how it is scoped here. Detection as
+  code stays as an optional deep-dive at the overlap with data, which `horizon/` still argues
+  for.
+- **Data is the differentiator.** The one posting that pays for depth pays for Spark, Delta,
+  and replatforming legacy SQL with proof that the numbers still agree.
+
+The stack: Python, TypeScript and React, Postgres, PySpark and Delta, DuckDB for judgment.
+Azure first, because the data posting names its services; AWS equivalents on every cloud
+module, because the other two name it.
+
+## Depth
+
+Four pillars is breadth, and depth over breadth is the rule. So:
+
+| Pillar | Tier I am aiming at | Where the proof lives |
+|---|---|---|
+| Data | `deep-dive` — the one to go unreasonably deep in | `platform`: replatform, parity, ingestion |
+| Full-stack | `build-it` — defendable, not distinguished | `product`: API, explorer, SDK |
+| Applied AI | `build-it`, with evals as the deep part | the assistant inside `product`, evals gating CI |
+| Security | judgment; deep only where it meets data | OIDC, policy, audit log, POPIA across both systems |
+
+This plan is longer than the one it replaces. That is the price of the fourth pillar. If the
+daily loop stops fitting, the lever is cutting a pillar, never lowering a standard.
 
 ## What this file is
 
-- The phases, in order, each with the exit test that ends it
-- The spine project, and the rule that keeps it honest
+- The phases, in order, each with the project it builds and the exit test that ends it
+- The two systems, the tests a project has to pass to be worth building, and the rule that
+  keeps them honest
 - The daily and weekly loop
 - The practices that mimic actual work rather than technique
 
 ## What this file is not
 
 - A schedule
-- A CV — production proof lives in separate build repositories
+- A CV — production proof lives in the two build repositories
 - A record of what I have done; `worked-examples` modules and `decisions/` are that
 
 ## What every phase has to answer
 
-1. **Can I build it?** — the `minicloud` slice
+1. **Can I build it?** — the phase's project slice
 2. **Can I explain it cold?** — the module's `INTERVIEW.md`, answered aloud before reading
 3. **Do I know how it fails?** — the module's non-claims and `NOTES.md`
 4. **Did it pass?** — the exit test, on a day I did not choose
+5. **Did someone else see it?** — a stranger installed it, a peer reviewed it, or a human heard
+   the answer
 
-A phase that answers three of the four is not finished.
+A phase that answers four of the five is not finished. No gate is graded only by the one
+person with a motive to pass it.
 
-## The shape: two repositories
+## The shape: three repositories
 
-`NON-CLAIMS.md` already says production proof belongs in a separate build repository, so:
+`NON-CLAIMS.md` says production proof belongs outside a learning repo, so:
 
 - **`worked-examples`** (this repo) — understanding. Modules, tiers, exercises, tests,
-  interview answers. Unchanged.
-- **`minicloud`** (new repo) — proof. One system, built slowly, operated badly at first and
-  then better. Rename it to whatever I like; the name matters less than it being *one*
-  system rather than twelve abandoned ones.
+  interview answers.
+- **`platform`** (working name) — data proof. A replatform, a parity tool, an ingestion
+  service.
+- **`product`** (working name) — full-stack, AI, security and operations proof. A public
+  product with real data and real users.
 
-The two are linked: every non-trivial thing `minicloud` needs, I first learn as a module here.
+Every non-trivial thing the two systems need, I first learn as a module here.
 
-## The spine project
+## The two systems
 
-**`minicloud` is a local emulator of a small cloud**, in the shape of floci — the thing I
-read first — but in my own stack and at a size one person can actually hold in their head.
+### What makes a project worth building
 
-Three services, added in this order:
+Four tests, all required:
 
-1. **An object store** with an HTTP API. Buckets, keys, PUT/GET/DELETE/LIST, ranged reads,
-   content hashing, durability on crash.
-2. **A stream** — append-only, partitioned, with offsets and consumer groups. The thing that
-   teaches ordering, replay, at-least-once delivery and late data.
-3. **An auth layer** — request signing, and a policy engine that decides whether a signed
-   request is allowed to do what it asked.
+1. **It is the work the roles do.** Not an analogy for it.
+2. **Someone else could use it.** A library on PyPI, a service a team could run, a site a
+   stranger visits.
+3. **It forces the hard parts.** Durability, ordering, idempotency, auth, parity, evals.
+4. **It has an oracle.** "Is this correct" has an answer that is not my opinion.
 
-Plus **a web console** in TypeScript and React, and **a CLI**.
+The first version of this plan had a local emulator of a small cloud as its spine. It passed
+the third and fourth tests and failed the first two: these roles build on cloud services, not
+copies of them. It is gone. The lessons it carried — durability, ordering, replay, delivery
+semantics, durable jobs — moved into the ingestion service and two deep-dive modules.
 
-### Why this project and not another
+### `platform` — a data platform a team could use
 
-It is the only single artifact I could find that exercises the whole requirements list at
-once:
+Three parts, added in this order:
 
-| Requirement | What `minicloud` forces me to actually do |
+1. **The replatform.** WideWorldImporters, Microsoft's SQL Server sample, ships an OLTP
+   database, a data warehouse, and the T-SQL procedures that load it. Rebuild that ETL on
+   PySpark and Delta: bronze, silver, gold; orchestrated; every layer tested; governed. The
+   oracle is the shipped warehouse. Gold has to match it to the cent.
+2. **`parity`.** A CLI and library that compares two SQL-queryable sources with tolerances and
+   produces an evidence report fit for CI and for a reviewer who wants it to be wrong. One of
+   the postings asks for "parity evidence" by name. Published to PyPI.
+3. **The ingestion service.** Change data capture on the SQL Server source and polling of the
+   Municipal Money API, into Redpanda (the Kafka API, in Docker), landed in Delta by idempotent
+   merge. Offsets, replay, backfill versus live, late data, schema drift, dead letters, a
+   job-status API. Service Bus or Event Hubs is the cloud shape. This is where the emulator's
+   lessons now live, on infrastructure a data team would recognise.
+
+### `product` — a municipal finance explorer for South Africa
+
+National Treasury publishes every municipality's budgets, spending, and audit outcomes through
+the Municipal Money API. Nobody has built a good explorer over it with an assistant. So:
+
+- Where a municipality's money comes from and goes, audit outcomes, comparisons across years
+  and peers. Public site.
+- A typed Python client library, `municipal-money`, on PyPI.
+- A REST API with OIDC login for saved views.
+- An assistant that answers questions with citations to the rows and the budget documents it
+  retrieved, with evals gating deploys.
+
+Journalists, councillors and residents are real users. The oracle is Treasury's own published
+figures.
+
+### How they connect
+
+Ingestion feeds both the replatform's bronze layer and the product's data. The product reads
+gold. The assistant reads gold and the document corpus. Auth and audit cover all of it.
+Everything is deployed and operated together. One architecture that fits on a whiteboard,
+which is the interview answer.
+
+### Storage and log internals
+
+Two `deep-dive` modules in this repo, not products: a crash-safe key-value store with a
+write-ahead log, and an append-only partitioned log with consumer offsets. From scratch,
+benchmarked. They exist so that when the ingestion service misbehaves I know what the broker
+is doing underneath.
+
+### The oracle, named
+
+| System | What "correct" means |
 |---|---|
-| Data modelling and storage | Storage engines, durability, partitioning, offsets, compaction, benchmarks, the cost of a bad data model |
-| Designing and operating APIs | HTTP semantics, error design, idempotency, pagination, rate limits, versioning, an SDK someone else could use |
-| Security and correctness judgment | Request signing, policy evaluation, authorisation bugs, audit logging, and building the detections that catch abuse of my own system |
-| Distributed and asynchronous reasoning | Ordering, replay, delivery semantics, late data, and what a crash mid-write leaves behind |
-| Reliability as an owned responsibility | Phase 6 — operating it, breaking it, and writing down what happened |
-
-It also fails usefully. An emulator has an oracle — the real service it emulates — so
-"is my behaviour correct" has an answer that is not my opinion. That is rare in learning
-projects and it is the reason this shape was worth borrowing.
+| Replatform | Gold matches the shipped WideWorldImporters warehouse to the cent |
+| Ingestion | A replay from offset zero reproduces gold byte for byte |
+| Product | Figures match Treasury's published ones and the API's own totals |
+| Assistant | The eval set passes, with the judge's limits written down |
 
 ### The rule that keeps it honest
 
-**Thin vertical slices, always.** The first version of the object store is PUT and GET for
-one bucket, in memory, with no auth, and it ships. Then it gets a disk. Then it gets crash
-safety. A slice is finished when it has a test, a README paragraph, and a note on what it
+**Thin vertical slices, always.** The first version of the product's backend loads one
+municipality's budget into Postgres and ships. Then it gets a worker. Then a job-status
+endpoint. A slice is finished when it has a test, a README paragraph, and a note on what it
 still gets wrong. Never build a layer I cannot yet demonstrate end to end.
+
+**A design doc before a service.** One page in `designs/`: the API or schema, the data model,
+the failure modes, and what it deliberately will not do. Two of the postings say "work from
+specs, design documents and ADRs". This is how I get good at reading them.
 
 ## The daily loop
 
@@ -124,7 +198,7 @@ ordinary and the plan has to work on those.
 | Minutes | What | Why |
 |---|---|---|
 | 25 | **Cold retrieval.** Open one old `INTERVIEW.md` question. Answer aloud before reading anything. | This is the only part that fights forgetting. It is also the part I will want to skip. |
-| 50 | **Build.** One exercise, or one thin slice of `minicloud`. Test first, always. | The struggle is the mechanism. |
+| 50 | **Build.** One exercise, or one thin slice of `product` or `platform`. Test first, always. | The struggle is the mechanism. |
 | 20 | **Write.** Update `NOTES.md`, or the module README, in my own words. | Writing is where I find out I did not understand it. |
 | 10 | **Commit and push.** One decision logged if I made one. | Green CI, or it did not happen. |
 
@@ -136,6 +210,7 @@ costs a day. Missing retrieval repeatedly costs the module.
 - **One module finished** to the `CONTRIBUTING.md` standard. Not two, and not a half.
 - **One decision record** in `decisions/`, on a real choice I made that week.
 - **One work scenario** from `scenarios/` — see below.
+- **One postmortem or engineering write-up read**, with a paragraph on what I would have asked.
 - **Friday reproduce-from-scratch check**, per `AI_USAGE.md`. Blank file, no assistant.
 - **Every other week: an incident.** Also below.
 
@@ -149,88 +224,96 @@ prevent, and it is the only way the plan can actually fail.
 
 The repo already supports this via `tools/shelltest.py` and the note in `CONTRIBUTING.md`.
 
-| Modules | Exit test |
-|---|---|
-| Shell navigation and pipes; grep, sed, cut on real log files; git branching and history; GitHub, remotes and CI | This repo is on GitHub, CI is green on a push I made, and I can explain what the workflow file does line by line |
+| Modules | Project | Exit test |
+|---|---|---|
+| Shell navigation and pipes; grep, sed, cut on real log files; git branching and history; GitHub, remotes and CI | This repo on GitHub with green CI; a shell log-triage script over real log files | CI is green on a push I made, and I have explained what the workflow file does, line by line, to another person |
 
-**Status:** the remote exists and CI ran green on a push I made, 2026-09-21. What remains
-of this exit test is the last clause — explaining the workflow file line by line.
+**Status:** the remote exists and CI ran green on a push I made, 2026-09-21. What remains is
+the last clause — the explanation, to a person.
 
-### Phase 1 — Python that holds up
+### Phase 1 — Python that holds up, and the machine underneath
 
-| Modules | Exit test |
-|---|---|
-| Types and data structures; functions and scope; files and encodings; exceptions and what to do with them; classes and when not to use them; modules and packaging; `pytest` properly; type hints; iterators and generators; `dataclasses`; the standard library worth knowing | Reproduce three `hands-on` module solutions from blank files, cold, in one sitting |
+| Modules | Project | Exit test |
+|---|---|---|
+| Types and data structures; functions and scope; files and encodings; exceptions and what to do with them; classes and when not to use them; modules and packaging with `uv`; `pytest` properly; type hints with Pyright in CI; iterators and generators; `dataclasses`; the standard library worth knowing; complexity and the standard structures, with timed exercises; `asyncio`, threads and the GIL; processes, file descriptors, signals, `fsync` and atomic rename; property-based testing with Hypothesis | Three standalone builds: a typed, packaged log-triage CLI; the crash-safe key-value store with a write-ahead log; the append-only log with consumer offsets. The last two are `deep-dive` modules and are benchmarked | Reproduce three `hands-on` module solutions from blank files, cold, in one sitting; and the key-value store survives a kill mid-write, proven by a test |
 
 `m001` already covers log parsing. It is the right first module and it stays.
 
 ### Phase 2 — HTTP, data, and the first slice
 
-Where `minicloud` starts.
+Where `product` starts.
 
-| Modules | `minicloud` slice | Exit test |
+| Modules | Project | Exit test |
 |---|---|---|
-| HTTP semantics; REST and its arguments; JSON and schemas; FastAPI; SQL; Postgres; indexes; transactions; data modelling | Object store: in-memory, then on disk. PUT, GET, DELETE, LIST. Ranged reads. A CLI that talks to it. | Someone else can install it from my README and store a file, without asking me anything |
+| HTTP semantics; TCP, DNS, TLS and timeouts; REST and its arguments; JSON and schemas; FastAPI; retries, backoff and idempotency; OAuth2 and OIDC as protocols; SQL; Postgres; indexes; transactions; data modelling; schema migrations; containers | Product backend v0: the `municipal-money` typed client on PyPI; a FastAPI service loading it into Postgres with migrations; a worker with idempotency keys and a job-status endpoint driving the loads; an OpenAPI spec; a generated SDK; a CLI; a Dockerfile | Someone else can install it from my README and pull one municipality's budget, without asking me anything |
 
 ### Phase 3 — The full-stack half
 
-| Modules | `minicloud` slice | Exit test |
+| Modules | Project | Exit test |
 |---|---|---|
-| JavaScript fundamentals; TypeScript; the type system as a design tool; React; state; data fetching; forms and validation; build tooling; end-to-end testing | The console: browse buckets, upload, view objects, see errors honestly | The console surfaces a server error in a way a stranger could act on |
+| JavaScript fundamentals; TypeScript; the type system as a design tool; React; state; data fetching; forms and validation; accessibility; a small component library; build tooling; end-to-end testing | The explorer: pick a municipality, see revenue, spend and audit outcome, compare across years and peers; honest error surfaces; Playwright tests; an `AGENTS.md` a stranger's assistant could work from | The explorer surfaces a server error in a way a stranger could act on, and that error is reachable by keyboard and screen reader |
 
 This phase is what makes "full-stack" a claim I can defend rather than a line on a CV.
 
-### Phase 4 — Data infrastructure depth
+### Phase 4 — Data engineering: the replatform
 
-| Modules | `minicloud` slice | Exit test |
+The deep phase. Everything here is the day job of the data posting in `research/`.
+
+| Modules | Project | Exit test |
 |---|---|---|
-| Append-only logs; partitioning; offsets and consumer groups; delivery semantics; watermarks and late data; serialisation formats; columnar storage and Parquet; DuckDB; "does this need distribution"; benchmarking honestly | The stream service, with replay. A benchmark harness. A written analysis of where it falls over. | A benchmark I would defend to someone who disagreed with it, including its limitations |
+| SQL depth, including reading T-SQL; PySpark and its execution model — partitions, shuffles, the Spark UI; Spark SQL; Delta Lake, with Iceberg as the comparison; Medallion layers and what each may contain; dimensional modelling and Data Vault, and when each is wrong; replatforming T-SQL to Spark SQL with parity evidence; orchestration with Airflow, ADF as the Azure shape; transformation as code, with tests; data quality and reconciliation; governance, PII tagging and POPIA; lineage with OpenLineage; catalog concepts — Hive Metastore, Unity Catalog; DuckDB and "does this need distribution"; Parquet and columnar storage; cost per GB stored and scanned | The replatform: SQL Server in Docker with the shipped OLTP, warehouse and ETL procedures; bronze to gold on Delta with local Spark or Databricks free edition; silver as Data Vault or star, decision recorded; Airflow; tested transforms; `parity` v1 comparing gold to the shipped warehouse; OpenLineage; PII masking on customer data; a cutover runbook; a DuckDB-versus-Spark benchmark on the same workload, with cost | The parity report is accepted by someone who wants it to be wrong; a stakeholder-shaped question is answered from gold and traced to the raw rows; a stranger runs the migration from my runbook without asking me anything |
 
 The "does this need distribution" module is already in the `horizon/` queue. It belongs here.
 
-### Phase 5 — Security depth
+### Phase 5 — Data infrastructure: the ingestion service
 
-| Modules | `minicloud` slice | Exit test |
+| Modules | Project | Exit test |
 |---|---|---|
-| Authentication vs authorisation; request signing; secrets handling; the OWASP failures that actually recur; threat modelling; audit logging; detection as code; supply chain and SBOMs; prompt injection in systems that read untrusted text | The auth layer: signed requests, a policy engine, an audit log. Then a detection pipeline over that audit log, with tested rules in CI. | I find a real authorisation bug in my own policy engine by writing a test that should have existed |
+| Append-only logs; partitioning; offsets and consumer groups; delivery semantics and idempotent sinks; watermarks and late data; change data capture; schema evolution; serialisation formats; event-driven architecture, and when to split a service; benchmarking honestly | The ingestion service: SQL Server CDC and Municipal Money polling into Redpanda, landed in Delta by idempotent merge; offsets, replay, backfill versus live, late data, schema drift, dead letters, a job-status API; the product switches to reading gold; Service Bus or Event Hubs documented as the cloud shape; a benchmark harness and a written analysis of where it falls over | A replay from offset zero reproduces gold byte for byte; and a benchmark I would defend to someone who disagreed with it, including its limitations |
 
-This is where the two fields meet, which the `horizon/` entry already identifies as the most
-defensible position available to me. It is deliberately the deepest phase.
+### Phase 6 — Applied AI
 
-### Phase 6 — Operate it
+| Modules | Project | Exit test |
+|---|---|---|
+| Model API fundamentals — messages, structured outputs, tool use, streaming; retrieval-augmented generation and vector search with pgvector, retrieval measured separately from generation; agents and tool orchestration, and when a plain function is better; **evals** — golden sets, LLM-as-judge and its limits, regression as a CI gate; guardrails and prompt injection in systems that read untrusted text; local serving with Ollama or vLLM; cost, latency and caching; observability of LLM systems; versioning prompts and models, serving an endpoint, monitoring it; working with coding assistants critically — `AI_USAGE.md` extended from learning to building | The assistant inside the product: question to tool call or generated SQL to answer, with row citations; pgvector retrieval over municipal budget documents and Treasury reports; a golden eval set and judge run in CI; injection tests using poisoned document text; hosted API or local model; a cost and latency panel; pinned prompt and model versions | The eval suite catches a regression I introduce on purpose before I notice it by hand; and an injection planted in stored data is blocked by a test that existed first |
+
+Evals are the deep module. Anyone can call a model API; the skill the roles pay for is
+knowing, with evidence, whether the answers got worse.
+
+### Phase 7 — Security and privacy judgment
+
+| Modules | Project | Exit test |
+|---|---|---|
+| Authentication versus authorisation; OAuth2, OIDC, Entra ID and Cognito; request signing; secrets and Key Vault; the OWASP failures that actually recur; privacy engineering and POPIA; audit logging; supply chain — dependency scanning and SBOMs as CI jobs; threat modelling. Optional deep-dive: detection as code | Across both systems: OIDC login via Entra ID or Keycloak; API keys and request signing for the public API; a policy layer for who sees what; an audit log; secrets in Key Vault or a local vault; SBOM and dependency scanning in CI; a threat model of the assistant; POPIA masking verified on the replatform. Optional: detection rules over the audit log, tested in CI | I find a real authorisation bug in my own policy layer by writing a test that should have existed |
+
+### Phase 8 — Operate it
 
 The phase that attacks `NON-CLAIMS.md` directly. Starts as soon as there is something worth
-operating — it overlaps every phase after Phase 2, and it does not end.
+operating — it overlaps every phase after Phase 2 — and it does not end.
 
-- Load it until it breaks, and write down where and why
-- Inject failures deliberately: full disk, killed process mid-write, clock skew, slow client
-- Run it continuously and keep an uptime log
-- Take a real dependency upgrade that breaks something, and fix it
+| Modules | Project | Exit test |
+|---|---|---|
+| Structured logging; OpenTelemetry traces and metrics; SLOs; alerting; Terraform and deployment; load testing; fault injection; incident response and postmortems | Both systems deployed to Azure with Terraform — Container Apps, Postgres Flexible, Storage — with AWS equivalents documented; OpenTelemetry to a dashboard; SLOs; alerts; runbooks; a load test to breakage; fault injection — kill mid-write, full disk, clock skew, slow client; incident drills with postmortems; one dependency upgrade that breaks something, fixed | An alert I wrote fires on a failure I injected before I look at the logs, and the postmortem names the test that now prevents it |
 
-### Phase 7 — Production experience, which is the actual bar
+### Phase 9 — Production experience, which is the actual bar
 
-The requirements list starts with years of production work. Phases 0–6 sharpen it and give
+The requirements list starts with years of production work. Phases 0–8 sharpen it and give
 me the evidence to show for it; they cannot substitute for it, and this file will not pretend
 they can. So this phase is explicit work, not waiting:
 
-- **Treat the job as the curriculum's main campus.** The production experience I have is
-  real — technicians, payroll, a company behind one login — and it is the only kind that
-  counts. Pull the work toward the list on purpose: the system boundaries, the auth, the
-  data that has to be right.
-- **Own something on-call.** Reliability as an owned responsibility is on the list and is the
-  single hardest item to get outside a job.
-- **Widen the consequences.** Real users is already true. Real money and real scale behind
-  the same systems is the next line of "what this will not prove", and it is crossed off the
-  only way it can be.
+- **The product in production is the campus.** Published, used by strangers, with an uptime
+  commitment and a pager I carry. Real users, real consequences, on something I own end to
+  end.
+- **Years count wherever they were earned.** Employment counts toward the first requirement.
+  So do mentoring, stakeholder ownership and incident history — claimed with evidence, from
+  wherever they happened. This file does not name an employer, and does not need to.
 - **Sustained contribution to code I did not write.** Begins once Phase 3's exit test passes;
   before that I cannot read a stranger's codebase fast enough for it to be contribution
-  rather than charity. Not floci itself — 4,430 Java files, PRs past #3800, and exactly one
-  open good-first-issue that already has a PR on it. Its sibling `testcontainers-floci` is
-  57 stars with the same maintainers, which is a room where a newcomer is visible rather than
-  noise. Any small, active, well-tested project with a real CONTRIBUTING file will do.
-- **Depth over breadth, in public.** The requirements reward someone who has gone
-  unreasonably deep into storage, APIs or security — not someone who has touched all three
-  lightly. Phases 4 and 5 decide which one; this phase lives there.
+  rather than charity. Treasury's own open-source municipal-data project is the natural first
+  candidate. Any small, active, well-tested project with a real CONTRIBUTING file will do.
+- **Certifications are not gates.** DP-900 and the Databricks Spark Developer certificate align
+  with the data pillar and are taken if they fall out of the work — never instead of a module.
+- **Depth over breadth, in public.** Data is the depth. This phase lives there.
 
 The gate on this phase, and on the curriculum, is meeting the list — in years and in kind —
 with the evidence public.
@@ -242,8 +325,8 @@ are the reason a portfolio of exercises usually fails to convert into an offer.
 
 ### Decision records — `decisions/`
 
-One file per real decision. The format is deliberately short, and the last line is the one
-that matters:
+One file per real decision. The postings call them ADRs. The format is deliberately short, and
+the last line is the one that matters:
 
 ```
 # NNN — <the decision>
@@ -258,12 +341,18 @@ Date, status.
 Writing the options fairly is the skill. A decision record where one option is a straw man
 is a record of a rationalisation, not a decision.
 
+### Design docs — `designs/`
+
+One page before any service starts: the API or schema, the data model, the failure modes, what
+it will not do. Reviewed by someone else before the first commit. This is the document senior
+engineers write; the modules are what makes it possible to write one.
+
 ### Work scenarios — `scenarios/`
 
 A weekly ticket written the way tickets actually arrive: ambiguous, from a stakeholder with
 a goal rather than a spec, sometimes wrong about the cause.
 
-> "Uploads are slow for the Johannesburg office. Can you look at it this week?"
+> "Finance says the gold total is R40k off from the source. Can you look at it this week?"
 
 The exercise is not to fix it. It is to write down: what I would ask before starting, what
 I would measure first, what I think the three plausible causes are, and which one I would
@@ -273,26 +362,44 @@ Ambiguity tolerance is on the requirements list. This is how it gets practised.
 
 ### Incidents — every other week
 
-I break `minicloud` on purpose — or better, have someone else break it — and then diagnose
-it under a clock without reading the commit that did it. Afterwards, a postmortem: timeline,
-what I believed at each step and why it was wrong, the actual cause, and the test that would
-have caught it.
+I break one of the two systems on purpose — or better, have someone else break it — and then
+diagnose it under a clock without reading the commit that did it. Afterwards, a postmortem:
+timeline, what I believed at each step and why it was wrong, the actual cause, and the test
+that would have caught it.
 
 Blameless postmortems are a genuine professional skill and almost nobody arrives with one.
 
 ### Code review — monthly
 
 Open a pull request against my own repo and review it a week later as a stranger would,
-against `CONTRIBUTING.md`. Then get a human to review one. Review given and received is on
+against `CONTRIBUTING.md`. Then get a human to review one. Then review one
+assistant-generated pull request against the same bar; one of the postings asks for exactly
+that, "critically reviewing and validating AI-generated code". Review given and received is on
 the `NON-CLAIMS.md` list and this is the cheapest way to start crossing it off.
+
+### Interview rehearsal — every phase
+
+The hiring processes in `research/` are pair coding, take-homes, and hours of final
+interviews graded on design, code quality, performance and test coverage. Practising alone
+does not rehearse any of that. So, once per phase: one take-home-shaped exercise graded by
+another person against those four criteria; one system design done aloud to a human in
+forty-five minutes; one pair-coding session where I talk while I type.
+
+### Reading — weekly
+
+One postmortem or engineering write-up, with a paragraph on what I would have asked the
+authors. Senior engineers read; the reading is where the vocabulary for the design docs comes
+from.
 
 ## What this curriculum still will not prove
 
-Kept here for the same reason `NON-CLAIMS.md` is kept at top level. Phases 0–6 close none of
-these; Phase 7 is the only thing that touches them, which is why it is on the page.
+Kept here for the same reason `NON-CLAIMS.md` is kept at top level. Phases 0–8 close none of
+these; Phase 9 is the only thing that touches them, which is why it is on the page.
 
-- Working under real users, real money, and real consequences
-- Scale that any employer would call scale
+- Working under real money and real consequences at any scale an employer would call scale
+- Operating Spark or Kafka as a platform for other people at the scale the postings name.
+  `platform` is the laptop-and-one-VM-sized version of what those systems do
+- A replatform with real money behind the cutover
 - Sustained collaboration inside a team with competing priorities
 - That I am employable. It proves I can learn and ship, which is necessary and not sufficient
 
@@ -305,11 +412,19 @@ these; Phase 7 is the only thing that touches them, which is why it is on the pa
 - **If an exit test fails three attempts running.** That is information about the plan, not
   about me. Cut the scope of the phase rather than the standard of the test; a narrower
   phase finished beats a broader one abandoned.
+- **If `decisions/` has fewer records than there have been real decisions.** The practice is
+  being skipped. Write the missing ones, dated today and marked late.
+- **If the daily loop stops fitting.** Cut a pillar. Never lower a standard.
 - **Never by elapsed time.** Slow is a reason to look at the daily loop, not to move a gate.
 
 ## Sources
 
-- `research/2026-09-17-openai-target-roles.md` — the postings the requirements were reduced
+- `research/2026-09-22-sa-target-roles.md` — the three postings the requirements were reduced
   from, with URLs
-- `research/2026-09-17-floci-local-build.md` — what floci is, and why it is a better model
-  than a target
+- `research/2026-09-22-data-role-example.md` — a fourth posting, the example of what data roles
+  pay for
+- `research/2026-09-17-openai-target-roles.md` — the postings the first version of this plan
+  was reduced from; still the source for the interview process and for "production, not
+  projects"
+- `research/2026-09-17-floci-local-build.md` — what shaped the first version's spine, and why
+  an emulator was the wrong project for these roles

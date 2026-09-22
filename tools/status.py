@@ -42,7 +42,9 @@ def audit(d: Path) -> list[str]:
                 problems.append(f"README missing section '{s}'")
         if "TODO" in text:
             problems.append("README still contains TODO")
-    n = len(list((d / "exercises").glob("[!_]*.py"))) if (d / "exercises").exists() else 0
+    ex = d / "exercises"
+    # Shell modules (CONTRIBUTING.md, "Before you know Python") keep exercises as .sh scripts.
+    n = len(list(ex.glob("[!_]*.py")) + list(ex.glob("[!_]*.sh"))) if ex.exists() else 0
     need = MIN_EXERCISES.get(tier_of(d.name), 1)
     if n < need:
         problems.append(f"{n} exercises, tier requires {need}")
