@@ -323,8 +323,8 @@ they can. So this phase is explicit work, not waiting:
   before that I cannot read a stranger's codebase fast enough for it to be contribution
   rather than charity. Treasury's own open-source municipal-data project is the natural first
   candidate. Any small, active, well-tested project with a real CONTRIBUTING file will do.
-- **Certifications are not gates.** DP-900 and the Databricks Spark Developer certificate align
-  with the data pillar and are taken if they fall out of the work — never instead of a module.
+- **Certifications are not gates.** They are sat as a by-product of the phases, per
+  "Certifications" below — never instead of a module.
 - **Depth over breadth, in public.** Data is the depth. This phase lives there.
 
 The gate on this phase, and on the curriculum, is meeting the list — in years and in kind —
@@ -433,6 +433,37 @@ concepts and not the code. It cannot carry Phase 4 or Phase 6; those are the fre
 storage, partitioning, transactions, batch and stream processing are Phases 1, 4 and 5 in a
 single volume. Fundamentals of Data Engineering gives the field's map. The Data Warehouse
 Toolkit gives the modelling Phase 4 needs. These outlast every platform on this page.
+
+## Certifications
+
+**The rule.** A certification is sat *after* the phase's exit test passes, using that phase's
+work as the preparation. If I have to study separately for one, the phase did not teach me
+enough, and the fix is the module, not the cram. None of them appears on the requirements
+list; exactly one is named in a posting at all, and there as a nice-to-have.
+
+Cloud is Azure. Where Microsoft's own path has moved away from what I am building, I follow
+what I am building.
+
+| Phase | Certification | Why it follows from the work |
+|---|---|---|
+| 2 | Azure Data Fundamentals (DP-900) | Already begun. Fundamentals-level, and the Postgres, modelling and storage work covers it |
+| 4 | **Databricks Certified Associate Developer for Apache Spark, Python** | The only certification any target posting names. The replatform *is* the preparation: DataFrame API, partitions, shuffles, Spark Connect, tuning |
+| 4 | Databricks Certified Data Engineer Associate | Medallion layers, Delta, batch and streaming pipelines — the phase's project, examined |
+| 4 | Astronomer's Apache Airflow 3 Fundamentals; dbt's analytics engineering certificate | Cheap, narrow, and tied to two tools the phase uses daily |
+| 5 | Databricks Certified Data Engineer Professional | The depth badge. Sit it after the ingestion service, not before |
+| 6 | Databricks Certified Generative AI Engineer Associate, or Azure AI Engineer (AI-102) | After the assistant ships with evals gating CI. The first matches the stack; the second matches the cloud |
+| 7 | Identity and Access Administrator (SC-300) | After OIDC, the policy layer and the audit log are built and a threat model exists |
+| 8 | Azure Developer Associate (AZ-204); HashiCorp Terraform Associate | After both systems are deployed to Azure with Terraform and instrumented |
+
+**What I am deliberately not taking.** DP-203, the Azure Data Engineer certificate, was retired
+in March 2025. Its replacement, DP-700, examines Microsoft Fabric — a different platform from
+the Spark, Delta and Databricks stack this plan is built on. Taking it would mean learning
+Fabric to pass an exam rather than because the work needs it, which is the exact inversion this
+page exists to prevent. If an employer asks for the Microsoft data badge specifically, that is
+the moment to reconsider, and not before.
+
+AZ-900 is below where I already am. AZ-305 and Kubernetes certificates are beyond what either
+system needs.
 
 ## What this curriculum still will not prove
 
