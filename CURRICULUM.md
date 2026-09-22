@@ -245,7 +245,7 @@ Where `product` starts.
 
 | Modules | Project | Exit test |
 |---|---|---|
-| HTTP semantics; TCP, DNS, TLS and timeouts; REST and its arguments; JSON and schemas; FastAPI; retries, backoff and idempotency; OAuth2 and OIDC as protocols; SQL; Postgres; indexes; transactions; data modelling; schema migrations; containers | Product backend v0: the `municipal-money` typed client on PyPI; a FastAPI service loading it into Postgres with migrations; a worker with idempotency keys and a job-status endpoint driving the loads; an OpenAPI spec; a generated SDK; a CLI; a Dockerfile | Someone else can install it from my README and pull one municipality's budget, without asking me anything |
+| HTTP semantics; TCP, DNS, TLS and timeouts; REST and its arguments; JSON and schemas; FastAPI; retries, backoff and idempotency; OAuth2 and OIDC as protocols; SQL; Postgres; indexes; transactions and isolation levels; reading a query plan; data modelling; schema migrations; containers | Product backend v0: the `municipal-money` typed client on PyPI; a FastAPI service loading it into Postgres with migrations; a worker with idempotency keys and a job-status endpoint driving the loads; an OpenAPI spec; a generated SDK; a CLI; a Dockerfile | Someone else can install it from my README and pull one municipality's budget, without asking me anything |
 
 ### Phase 3 — The full-stack half
 
@@ -261,7 +261,7 @@ The deep phase. Everything here is the day job of the data posting in `research/
 
 | Modules | Project | Exit test |
 |---|---|---|
-| SQL depth, including reading T-SQL; PySpark and its execution model — partitions, shuffles, the Spark UI; Spark SQL; Delta Lake, with Iceberg as the comparison; Medallion layers and what each may contain; dimensional modelling and Data Vault, and when each is wrong; replatforming T-SQL to Spark SQL with parity evidence; orchestration with Airflow, ADF as the Azure shape; transformation as code, with tests; data quality and reconciliation; governance, PII tagging and POPIA; lineage with OpenLineage; catalog concepts — Hive Metastore, Unity Catalog; DuckDB and "does this need distribution"; Parquet and columnar storage; cost per GB stored and scanned | The replatform: SQL Server in Docker with the shipped OLTP, warehouse and ETL procedures; bronze to gold on Delta with local Spark or Databricks free edition; silver as Data Vault or star, decision recorded; Airflow; tested transforms; `parity` v1 comparing gold to the shipped warehouse; OpenLineage; PII masking on customer data; a cutover runbook; a DuckDB-versus-Spark benchmark on the same workload, with cost | The parity report is accepted by someone who wants it to be wrong; a stakeholder-shaped question is answered from gold and traced to the raw rows; a stranger runs the migration from my runbook without asking me anything |
+| SQL depth on SQL Server — T-SQL, stored procedures, query plans, and the dialect differences that break a migration; PySpark and its execution model — partitions, shuffles, the Spark UI; Spark SQL; Delta Lake, with Iceberg as the comparison; Medallion layers and what each may contain; dimensional modelling and Data Vault, and when each is wrong; replatforming T-SQL to Spark SQL with parity evidence; orchestration with Airflow, ADF as the Azure shape; transformation as code, with tests; data quality and reconciliation; governance, PII tagging and POPIA; lineage with OpenLineage; catalog concepts — Hive Metastore, Unity Catalog; DuckDB and "does this need distribution"; Parquet and columnar storage; cost per GB stored and scanned | The replatform: SQL Server in Docker with the shipped OLTP, warehouse and ETL procedures; bronze to gold on Delta with local Spark or Databricks free edition; silver as Data Vault or star, decision recorded; Airflow; tested transforms; `parity` v1 comparing gold to the shipped warehouse; OpenLineage; PII masking on customer data; a cutover runbook; a DuckDB-versus-Spark benchmark on the same workload, with cost | The parity report is accepted by someone who wants it to be wrong; a stakeholder-shaped question is answered from gold and traced to the raw rows; a stranger runs the migration from my runbook without asking me anything |
 
 The "does this need distribution" module is already in the `horizon/` queue. It belongs here.
 
@@ -281,7 +281,7 @@ Databricks; those come from Databricks Academy's free Data Engineer plan.
 
 | Modules | Project | Exit test |
 |---|---|---|
-| Append-only logs; partitioning; offsets and consumer groups; delivery semantics and idempotent sinks; watermarks and late data; change data capture; schema evolution; serialisation formats; event-driven architecture, and when to split a service; benchmarking honestly | The ingestion service: SQL Server CDC and Municipal Money polling into Redpanda, landed in Delta by idempotent merge; offsets, replay, backfill versus live, late data, schema drift, dead letters, a job-status API; the product switches to reading gold; Service Bus or Event Hubs documented as the cloud shape; a benchmark harness and a written analysis of where it falls over | A replay from offset zero reproduces gold byte for byte; and a benchmark I would defend to someone who disagreed with it, including its limitations |
+| Append-only logs; partitioning; offsets and consumer groups; delivery semantics and idempotent sinks; watermarks and late data; change data capture; schema evolution; serialisation formats; event-driven architecture, and when to split a service; system design — stating a trade-off, writing it down, and defending it aloud; benchmarking honestly | The ingestion service: SQL Server CDC and Municipal Money polling into Redpanda, landed in Delta by idempotent merge; offsets, replay, backfill versus live, late data, schema drift, dead letters, a job-status API; the product switches to reading gold; Service Bus or Event Hubs documented as the cloud shape; a benchmark harness and a written analysis of where it falls over | A replay from offset zero reproduces gold byte for byte; and a benchmark I would defend to someone who disagreed with it, including its limitations |
 
 ### Phase 6 — Applied AI
 
@@ -402,6 +402,37 @@ forty-five minutes; one pair-coding session where I talk while I type.
 One postmortem or engineering write-up, with a paragraph on what I would have asked the
 authors. Senior engineers read; the reading is where the vocabulary for the design docs comes
 from.
+
+## Where the material comes from
+
+**A course is the reading before a module, never the module.** `AI_USAGE.md` says guided
+tools are worst used for first exposure and best used for drilling something already
+understood; a video has the same failure mode. Watch it, close it, then build the exercises
+cold. The module's tests are what proves it stuck.
+
+One course open at a time, tied to the module being built. None open on a day the build slot
+was skipped.
+
+| Phase | Dometrain | Free, and usually better |
+|---|---|---|
+| 0 | Learn Bash, Learn Linux, Learn Git From Scratch, GitHub Actions | — |
+| 1 | Learn Python, Data Structures & Algorithms | CMU 15-445 for storage, indexes, transactions and recovery — the course behind the two deep-dive modules |
+| 2 | Learn PostgreSQL, Docker for Developers, Docker Compose, Authentication and Authorization, System Design | FastAPI documentation |
+| 3 | Learn TypeScript, Learn JavaScript | react.dev, including its interactive tutorial |
+| 4 | SQL Server | Data Engineering Zoomcamp; Databricks Academy's free Data Engineer plan for Delta and Databricks; Astronomer Academy for Airflow; dbt Learn for dbt; `iobruno/data-engineering-labs` for layout, read late |
+| 5 | Event-Driven Architecture, Microservices Architecture, Domain-Driven Design, System Design | the Zoomcamp's streaming module |
+| 6 | — | LLM Zoomcamp — Python, pgvector, and a module on measuring retrieval and answer quality; Anthropic's own courses for tool use and evals |
+| 7 | Authentication and Authorization | OWASP, and the OAuth2 and OIDC specifications |
+| 8 | Azure for Developers, Cloud Architecture in Azure, Kubernetes for Developers, Bicep, OpenTelemetry | Terraform documentation; Microsoft Learn for the Azure services |
+| Practices | Nailing the Behavioral Interview, Mastering Communication & Collaboration | the weekly reading, below |
+
+Dometrain is .NET-centred, so its architecture, security and cloud courses are taken for the
+concepts and not the code. It cannot carry Phase 4 or Phase 6; those are the free sources.
+
+**The three books.** Designing Data-Intensive Applications is the one to read first, because
+storage, partitioning, transactions, batch and stream processing are Phases 1, 4 and 5 in a
+single volume. Fundamentals of Data Engineering gives the field's map. The Data Warehouse
+Toolkit gives the modelling Phase 4 needs. These outlast every platform on this page.
 
 ## What this curriculum still will not prove
 
