@@ -265,6 +265,18 @@ The deep phase. Everything here is the day job of the data posting in `research/
 
 The "does this need distribution" module is already in the `horizon/` queue. It belongs here.
 
+**A reference implementation, read late.** `iobruno/data-engineering-labs` is one person's
+original implementations across ingestion, orchestration, warehousing, dbt, batch and stream
+processing, on current versions — Airflow 3, Spark 4 with Spark Connect, dbt against five
+warehouses, Flink and Kafka. It is good for exactly one thing: seeing how a competent person
+lays a project out, which is the part no course teaches and no documentation covers. It serves
+Phase 5 as well as this one.
+
+Per `AI_USAGE.md`, it gets opened *after* I have built my own version and want to compare —
+never before. Reading a finished implementation first is the same mistake as reading a
+solution first, and it feels just as much like progress. It does not cover Delta Lake or
+Databricks; those come from Databricks Academy's free Data Engineer plan.
+
 ### Phase 5 — Data infrastructure: the ingestion service
 
 | Modules | Project | Exit test |
