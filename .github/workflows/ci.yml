@@ -12,10 +12,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pytest ruff
+      - run: pip install pytest ruff pyyaml hypothesis
       - name: Run every module's tests
         run: pytest modules -q
+      - name: Run every started challenge stage
+        run: pytest challenges -q -rs
       - name: Lint
-        run: ruff check modules tools
+        run: ruff check modules tools challenges
       - name: Check module standard
         run: python tools/status.py --check
+      - name: Report ladder progress
+        run: python tools/challenges.py --check

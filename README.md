@@ -46,9 +46,14 @@ modules/NNN-tier-topic/
   exercises/       stubs that fail
   solutions/       my solutions
   tests/           pytest that verifies both
+challenges/        the build ladders: one per phase, gated stage by stage
+decisions/         one record per real decision, written at the time
+designs/           one page before any service starts
+scenarios/         ambiguous tickets, practised the way they actually arrive
 horizon/           quarterly review: what is changing in data and security
+research/          the postings and the evidence the curriculum answers to
 templates/         module scaffold
-tools/             new_module.py, status.py
+tools/             new_module.py, status.py, challenges.py
 .local/            private, gitignored: weak attempts, half-formed thinking
 ```
 
@@ -59,6 +64,9 @@ make new t=hands-on topic=window-functions   # scaffold a module
 make test                                    # run every module's tests
 make test m=012                              # run one module
 make status                                  # regenerate the progress table below
+make challenge p=0 s=01                      # run one challenge stage
+make challenges                              # run every started stage
+make ladder                                  # regenerate the ladder table
 ```
 
 ## Progress
@@ -68,6 +76,17 @@ make status                                  # regenerate the progress table bel
 |---|---|---|---|
 | `m001_getting_started_log_parsing` | getting-started | log parsing | done |
 <!-- STATUS:END -->
+
+## Challenges
+
+Modules teach a topic. `challenges/` builds each phase's project in numbered stages, each gated
+by an acceptance test, in the shape CodeCrafters uses. A stage is done when its test passes on
+a push, so finishing one always leaves a commit behind. Stages nobody has started are skipped
+rather than failed, which is why the badge above still means something.
+
+Acceptance tests are Python and black-box wherever the thing being built is not: shell stages
+are graded through `tools/shelltest.py`, and services are graded over HTTP against a running
+container. See `challenges/README.md` for the rules and the current ladder.
 
 ## Standards
 

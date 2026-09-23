@@ -1,4 +1,4 @@
-.PHONY: test status new lint
+.PHONY: test status new lint challenge challenges ladder
 
 test:
 ifdef m
@@ -15,3 +15,12 @@ status:
 
 lint:
 	ruff check modules tools
+
+challenge:
+	pytest challenges/phase-$(p)*/$(s)*/tests -v
+
+challenges:
+	pytest challenges -q
+
+ladder:
+	@python tools/challenges.py

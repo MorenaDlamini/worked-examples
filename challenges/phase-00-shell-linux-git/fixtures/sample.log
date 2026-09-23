@@ -1,0 +1,9 @@
+2026-09-01T08:00:01Z INFO api request ok
+2026-09-01T08:00:02Z INFO api request ok
+2026-09-01T08:00:03Z WARN worker retry scheduled
+2026-09-01T08:00:04Z ERROR worker upload failed
+2026-09-01T08:00:05Z INFO web page served
+this line is not a log line at all
+2026-09-01T08:00:06Z ERROR api timeout upstream
+2026-09-01T08:00:07Z DEBUG web cache miss
+2026-09-01T08:00:08Z INFO api request ok

@@ -1,0 +1,162 @@
+{
+ "phase-00-shell-linux-git": {
+  "phase": "Shell, Linux and git",
+  "artifact": "logkit",
+  "stages": [
+   "00-parse-one-line",
+   "01-count-by-level",
+   "02-top-sources",
+   "03-reject-malformed",
+   "04-stream-not-buffer",
+   "05-detect-a-spike",
+   "06-ci-matrix",
+   "07-bisect-the-bug"
+  ]
+ },
+ "phase-01-python-and-the-machine": {
+  "phase": "Python and the machine underneath",
+  "artifact": "Python",
+  "stages": [
+   "00-typed-cli",
+   "01-records-and-rejects",
+   "02-property-tests",
+   "03-wal-append",
+   "04-wal-crash",
+   "05-wal-compact",
+   "06-log-offsets",
+   "07-benchmark-honestly"
+  ]
+ },
+ "phase-02-http-data-and-csharp": {
+  "phase": "HTTP, data and the first slice",
+  "artifact": "product backend",
+  "stages": [
+   "00-hello-endpoint",
+   "01-postgres-backed",
+   "02-client-package",
+   "03-idempotent-load",
+   "04-job-status",
+   "05-pagination",
+   "06-rate-limit",
+   "07-versioning",
+   "08-containerised"
+  ]
+ },
+ "phase-03-the-full-stack-half": {
+  "phase": "The full-stack half",
+  "artifact": "explorer",
+  "stages": [
+   "00-render-a-municipality",
+   "01-loading-and-error",
+   "02-server-state",
+   "03-compare-years",
+   "04-accessible-error",
+   "05-design-system",
+   "06-e2e-unhappy-path"
+  ]
+ },
+ "phase-04-patterns-and-architecture": {
+  "phase": "Design patterns and architecture",
+  "artifact": "refactor",
+  "stages": [
+   "00-characterisation-tests",
+   "01-extract-a-seam",
+   "02-apply-a-pattern",
+   "03-reject-a-pattern",
+   "04-event-source-one-aggregate",
+   "05-module-boundaries"
+  ]
+ },
+ "phase-05-system-design": {
+  "phase": "System design",
+  "artifact": "designs",
+  "stages": [
+   "00-estimate-the-load",
+   "01-design-the-built",
+   "02-design-the-replatform",
+   "03-greenfield-brief",
+   "04-azure-with-prices",
+   "05-defend-it"
+  ]
+ },
+ "phase-06-the-replatform": {
+  "phase": "Data engineering: the replatform",
+  "artifact": "platform",
+  "stages": [
+   "00-source-up",
+   "01-bronze",
+   "02-silver",
+   "03-gold-one-report",
+   "04-parity-harness",
+   "05-all-reports",
+   "06-orchestrate",
+   "07-lineage-and-pii",
+   "08-duckdb-benchmark"
+  ]
+ },
+ "phase-07-the-ingestion-service": {
+  "phase": "Data infrastructure: the ingestion service",
+  "artifact": "platform",
+  "stages": [
+   "00-cdc-on",
+   "01-to-the-log",
+   "02-idempotent-merge",
+   "03-replay-from-zero",
+   "04-late-data",
+   "05-schema-drift",
+   "06-dead-letters",
+   "07-job-status-api"
+  ]
+ },
+ "phase-08-applied-ai": {
+  "phase": "Applied AI",
+  "artifact": "assistant",
+  "stages": [
+   "00-structured-output",
+   "01-one-tool-call",
+   "02-sql-with-citation",
+   "03-pgvector-retrieval",
+   "04-retrieval-evals",
+   "05-answer-evals",
+   "06-injection-blocked",
+   "07-cost-and-latency"
+  ]
+ },
+ "phase-09-security-and-privacy": {
+  "phase": "Security and privacy judgment",
+  "artifact": "both systems",
+  "stages": [
+   "00-oidc-login",
+   "01-sign-requests",
+   "02-policy-layer",
+   "03-audit-log",
+   "04-find-the-bug",
+   "05-supply-chain",
+   "06-threat-model"
+  ]
+ },
+ "phase-10-operate-it": {
+  "phase": "Operate it",
+  "artifact": "both systems",
+  "stages": [
+   "00-structured-logs",
+   "01-traces-and-metrics",
+   "02-slo-and-alert",
+   "03-terraform-up",
+   "04-load-to-breakage",
+   "05-inject-a-failure",
+   "06-alert-catches-it",
+   "07-postmortem"
+  ]
+ },
+ "phase-11-production": {
+  "phase": "Production experience",
+  "artifact": "in public",
+  "stages": [
+   "00-publish-it",
+   "01-uptime-commitment",
+   "02-first-incident",
+   "03-upstream-pr"
+  ]
+ }
+}

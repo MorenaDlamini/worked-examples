@@ -4,10 +4,13 @@ version = "0.1.0"
 requires-python = ">=3.11"
 
 [tool.pytest.ini_options]
-testpaths = ["modules"]
+testpaths = ["modules", "challenges"]
 python_files = ["test_*.py"]
 addopts = "--strict-markers"
-markers = ["timed: exercise that must be completed inside a time limit"]
+markers = [
+  "timed: exercise that must be completed inside a time limit",
+  "acceptance: challenge stage graded black-box against a running service",
+]
 
 [tool.ruff]
 line-length = 100

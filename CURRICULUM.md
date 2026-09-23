@@ -37,7 +37,7 @@ list is mostly about verbs: build, operate, integrate, review, explain.
 10. Security and privacy judgment inside the product: OAuth2 and OIDC, secrets, POPIA
 
 The first item is the bar. No repository substitutes for it; `NON-CLAIMS.md` says the same
-thing from the other side, and Phase 9 exists for it.
+thing from the other side, and Phase 11 exists for it.
 
 Three things the postings made me change my mind about:
 
@@ -67,8 +67,8 @@ the front.**
 
 That is not a compromise. It is what the evidence says a full-stack engineer in Johannesburg
 who wants the data depth should actually be: a .NET product engineer whose data and AI work is
-in Python, which is the only serious language for either. Python still carries Phases 1, 4, 5
-and 6 — PySpark, the ingestion service, its FastAPI job-status API, and the assistant — so the
+in Python, which is the only serious language for either. Python still carries Phases 1, 6, 7
+and 8 — PySpark, the ingestion service, its FastAPI job-status API, and the assistant — so the
 Python-backend experience the postings name gets built where it belongs rather than bolted onto
 a web app.
 
@@ -212,6 +212,23 @@ still gets wrong. Never build a layer I cannot yet demonstrate end to end.
 the failure modes, and what it deliberately will not do. Two of the postings say "work from
 specs, design documents and ADRs". This is how I get good at reading them.
 
+## What ships at the end
+
+Five things a stranger can open, ordered by how much they prove. A reader who has time for one
+should be sent to the third.
+
+| # | Project | What it proves | Ships as |
+|---|---|---|---|
+| 1 | `worked-examples` | Learning rate, and that the standard is enforced rather than claimed — modules, challenge ladders, green CI on every push | This repo |
+| 2 | `parity` | Comparing two SQL-queryable sources and producing evidence a sceptic accepts. One posting asks for "parity evidence" by name | A PyPI package and a CLI |
+| 3 | `platform` | The data depth: a shipped T-SQL warehouse replatformed to PySpark and Delta, plus a change-capture ingestion service with replay | A repo, and a runbook a stranger can follow |
+| 4 | `product` | Full-stack and applied AI: an ASP.NET Core API, a React explorer, an assistant that cites its rows, OIDC, deployed and operated | A repo, a NuGet package, and a live URL |
+| 5 | Reserved | A fifth, at the overlap of data and security. Decided by research, not by appetite — see `research/` | To be decided |
+
+The fifth is deliberately empty rather than filled with something plausible. If it is not
+worth building by the four tests above, `platform` splits into the replatform and the ingestion
+service, which is honest because they have different oracles and different readers.
+
 ## The daily loop
 
 About an hour and three-quarters. Designed to survive a bad day, because most days are
@@ -248,10 +265,14 @@ The repo already supports this via `tools/shelltest.py` and the note in `CONTRIB
 
 | Modules | Project | Exit test |
 |---|---|---|
-| Shell navigation and pipes; grep, sed, cut on real log files; git branching and history; GitHub, remotes and CI | This repo on GitHub with green CI; a shell log-triage script over real log files | CI is green on a push I made, and I have explained what the workflow file does, line by line, to another person |
+| Linux — the filesystem, processes, permissions and services, without hand-holding; shell navigation and pipes; grep, sed, cut and awk on real log files; git branching, history and rebase; finding a planted bug with `git bisect run`; GitHub, remotes, pull requests and CI; GitHub Actions — workflows, matrix builds, caching and secrets; working with an assistant at the command line | **`logkit`**, a shell toolkit over a messy real log: parse a line, count by level, rank sources, detect a spike, reject malformed input with a non-zero exit, and stream rather than buffer. Tested by `tools/shelltest.py`, built by a CI matrix, with a bug planted in its history that has to be found using `git bisect run` | CI is green on a push I made, and I have explained what the workflow file does, line by line, to another person |
 
 **Status:** the remote exists and CI ran green on a push I made, 2026-09-21. What remains is
-the last clause — the explanation, to a person.
+`logkit` and the last clause of the exit test — the explanation, to a person.
+
+`logkit` exists because a phase with no artifact leaves nothing to commit, and Phase 0 was the
+only phase in that state. It is small on purpose. It is also the first thing in this repo that
+another person could run.
 
 ### Phase 1 — Python that holds up, and the machine underneath
 
@@ -272,7 +293,7 @@ have used for years without ever being examined on.
 
 | Modules | Project | Exit test |
 |---|---|---|
-| HTTP semantics; TCP, DNS, TLS and timeouts; REST and its arguments; JSON and schemas; ASP.NET Core minimal APIs; C# depth — `async`/`await` properly, LINQ, dependency injection, nullable reference types; xUnit and integration testing in ASP.NET Core; Entity Framework Core, and when Dapper is the better answer; background processing; retries, backoff and idempotency; OAuth2 and OIDC as protocols; SQL; Postgres; indexes; transactions and isolation levels; reading a query plan; data modelling; migrations; containers | Product backend v0: `MunicipalMoney.Client` on NuGet; an ASP.NET Core service loading it into Postgres with EF Core migrations; a background worker with idempotency keys and a job-status endpoint driving the loads; an OpenAPI spec; a generated TypeScript client for Phase 3; a CLI; a Dockerfile | Someone else can install it from my README and pull one municipality's budget, without asking me anything |
+| HTTP semantics; TCP, DNS, TLS and timeouts; REST and its arguments; JSON and schemas; API versioning as a strategy rather than a word; pagination over data I do not control; rate limits and quotas as something I implement rather than obey; webhooks, their delivery guarantees and replay; ASP.NET Core minimal APIs; C# depth — `async`/`await` properly, LINQ, dependency injection, nullable reference types; xUnit and integration testing in ASP.NET Core; unit against integration, and what is not worth testing; test doubles, and when a fake beats a mock; test-driven development; data structures and algorithms in C#, timed, because this is the language the interviews will be in; Entity Framework Core, and when Dapper is the better answer; background processing; retries, backoff and idempotency; OAuth2 and OIDC as protocols; SQL; Postgres; indexes; transactions and isolation levels; reading a query plan; data modelling; migrations; containers | Product backend v0: `MunicipalMoney.Client` on NuGet; an ASP.NET Core service loading it into Postgres with EF Core migrations; a background worker with idempotency keys and a job-status endpoint driving the loads; an OpenAPI spec; a generated TypeScript client for Phase 3; a CLI; a Dockerfile | Someone else can install it from my README and pull one municipality's budget, without asking me anything |
 
 ### Phase 3 — The full-stack half
 
@@ -295,7 +316,31 @@ am still not doing it. Remotely Angular is 5%, most South African listings say A
 React, and a second framework costs a whole phase that the data pillar needs more. Revisit only
 if I am turned down twice for a role where Angular was the stated blocker.
 
-### Phase 4 — Data engineering: the replatform
+### Phase 4 — Design patterns and architecture
+
+Patterns are judgment, not vocabulary. The exam is whether I can tell when one earns its place
+and when it is decoration, so every module here ends in a refactor of code that already works.
+
+| Modules | Project | Exit test |
+|---|---|---|
+| Creational patterns, and when they are overkill; structural patterns; behavioural patterns; SOLID as a heuristic rather than a law; refactoring to a pattern without changing behaviour; the pattern I rejected, and what it would have cost; event sourcing, and when an audit trail justifies it; modular monoliths, and the seam that lets you split later; microservices, and the cost nobody prices; the reverse migration, microservices back to a modular monolith; event-driven architecture; solution architecture as a document someone else can build from | Refactor the Phase 2 product backend. Extract one real seam; apply patterns only where they earn their place; event-source one aggregate so the audit trail is derivable rather than written twice; write the module boundaries down as a modular monolith with the split points named | I refactor working code to a pattern and every behaviour test passes unchanged, and a reviewer agrees the pattern earned its place. I can also name a pattern I rejected and say what it would have cost |
+
+The reverse-migration module is deliberate. Knowing why a team went back from microservices to
+a modular monolith is worth more in an interview than knowing how they left.
+
+### Phase 5 — System design
+
+One posting names system design as a fundamental, the interview processes in `research/` grade
+it directly, and it is the phase most likely to be skipped because nothing compiles.
+
+| Modules | Project | Exit test |
+|---|---|---|
+| The vocabulary; estimating load and capacity before designing anything; caching layers and what they hide; queues and back-pressure; consistency against availability, with a real choice made and defended; sharding and partitioning; gateways, rate limits and quotas; the classic intermediate problems; multi-region and failure domains; system design on Azure with named services and what they cost; writing the design doc; defending it aloud under time | Four documents in `designs/`. Three write up systems already built — the product backend, the explorer, the replatform — as if before the fact, which is the only honest way to find out what I would have got wrong. The fourth is greenfield from a brief with no code attached, which is the interview shape | I design a system aloud in forty-five minutes to someone who pushes back, and the written version survives their objections. The Azure one names real services and what they cost |
+
+Writing up a system after building it is not cheating. The value is the gap between the design
+I would have written and the thing I actually built, and that gap is the phase's real output.
+
+### Phase 6 — Data engineering: the replatform
 
 The deep phase. Everything here is the day job of the data posting in `research/`.
 
@@ -310,14 +355,14 @@ original implementations across ingestion, orchestration, warehousing, dbt, batc
 processing, on current versions — Airflow 3, Spark 4 with Spark Connect, dbt against five
 warehouses, Flink and Kafka. It is good for exactly one thing: seeing how a competent person
 lays a project out, which is the part no course teaches and no documentation covers. It serves
-Phase 5 as well as this one.
+Phase 7 as well as this one.
 
 Per `AI_USAGE.md`, it gets opened *after* I have built my own version and want to compare —
 never before. Reading a finished implementation first is the same mistake as reading a
 solution first, and it feels just as much like progress. It does not cover Delta Lake or
 Databricks; those come from Databricks Academy's free Data Engineer plan.
 
-### Phase 5 — Data infrastructure: the ingestion service
+### Phase 7 — Data infrastructure: the ingestion service
 
 The ingestion service is Python, and its job-status API is FastAPI. That is deliberate: the
 data posting asks for "REST APIs using FastAPI or equivalent" in the same breath as
@@ -328,7 +373,7 @@ rather than in front of a web app.
 |---|---|---|
 | Append-only logs; partitioning; offsets and consumer groups; delivery semantics and idempotent sinks; watermarks and late data; change data capture; schema evolution; serialisation formats; event-driven architecture, and when to split a service; system design — stating a trade-off, writing it down, and defending it aloud; benchmarking honestly | The ingestion service: SQL Server CDC and Municipal Money polling into Redpanda, landed in Delta by idempotent merge; offsets, replay, backfill versus live, late data, schema drift, dead letters, a job-status API; the product switches to reading gold; Service Bus or Event Hubs documented as the cloud shape; a benchmark harness and a written analysis of where it falls over | A replay from offset zero reproduces gold byte for byte; and a benchmark I would defend to someone who disagreed with it, including its limitations |
 
-### Phase 6 — Applied AI
+### Phase 8 — Applied AI
 
 | Modules | Project | Exit test |
 |---|---|---|
@@ -337,13 +382,13 @@ rather than in front of a web app.
 Evals are the deep module. Anyone can call a model API; the skill the roles pay for is
 knowing, with evidence, whether the answers got worse.
 
-### Phase 7 — Security and privacy judgment
+### Phase 9 — Security and privacy judgment
 
 | Modules | Project | Exit test |
 |---|---|---|
 | Authentication versus authorisation; OAuth2, OIDC, Entra ID and Cognito; request signing; secrets and Key Vault; the OWASP failures that actually recur; privacy engineering and POPIA; audit logging; supply chain — dependency scanning and SBOMs as CI jobs; threat modelling. Optional deep-dive: detection as code | Across both systems: OIDC login via Entra ID or Keycloak; API keys and request signing for the public API; a policy layer for who sees what; an audit log; secrets in Key Vault or a local vault; SBOM and dependency scanning in CI; a threat model of the assistant; POPIA masking verified on the replatform. Optional: detection rules over the audit log, tested in CI | I find a real authorisation bug in my own policy layer by writing a test that should have existed |
 
-### Phase 8 — Operate it
+### Phase 10 — Operate it
 
 The phase that attacks `NON-CLAIMS.md` directly. Starts as soon as there is something worth
 operating — it overlaps every phase after Phase 2 — and it does not end.
@@ -352,9 +397,9 @@ operating — it overlaps every phase after Phase 2 — and it does not end.
 |---|---|---|
 | Structured logging; OpenTelemetry traces and metrics; SLOs; alerting; Terraform and deployment; load testing; fault injection; incident response and postmortems | Both systems deployed to Azure with Terraform — Container Apps, Postgres Flexible, Storage — with AWS equivalents documented; OpenTelemetry to a dashboard; SLOs; alerts; runbooks; a load test to breakage; fault injection — kill mid-write, full disk, clock skew, slow client; incident drills with postmortems; one dependency upgrade that breaks something, fixed | An alert I wrote fires on a failure I injected before I look at the logs, and the postmortem names the test that now prevents it |
 
-### Phase 9 — Production experience, which is the actual bar
+### Phase 11 — Production experience, which is the actual bar
 
-The requirements list starts with years of production work. Phases 0–8 sharpen it and give
+The requirements list starts with years of production work. Phases 0–10 sharpen it and give
 me the evidence to show for it; they cannot substitute for it, and this file will not pretend
 they can. So this phase is explicit work, not waiting:
 
@@ -397,6 +442,20 @@ Date, status.
 
 Writing the options fairly is the skill. A decision record where one option is a straw man
 is a record of a rationalisation, not a decision.
+
+### Challenge ladders — `challenges/`
+
+Courses are watched and forgotten. Each phase's project is broken into numbered stages, and
+each stage is gated by an acceptance test that has to pass on CI. Modelled on CodeCrafters:
+stage N+1 does not start until stage N is green, and green means green on a push, not on my
+laptop, because my laptop is where the environment lies to me.
+
+Eighty-eight stages across the twelve phases. `modules/` teaches a topic; `challenges/` proves
+I can build the thing. The rule from `AI_USAGE.md` applies with a sharp edge here: the spec and
+the acceptance test may be assistant-written, and the solution may not.
+
+A stage nobody has started is skipped rather than failed, so the badge keeps meaning something.
+Starting a stage is therefore a commitment, which is the whole design.
 
 ### Design docs — `designs/`
 
@@ -460,28 +519,36 @@ was skipped.
 
 | Phase | Dometrain | Free, and usually better |
 |---|---|---|
-| 0 | Learn Bash, Learn Linux, Learn Git From Scratch, GitHub Actions | — |
-| 1 | Learn Python, Data Structures & Algorithms | CMU 15-445 for storage, indexes, transactions and recovery — the course behind the two deep-dive modules |
-| 2 | C# Deep Dive, Asynchronous Programming in C#, LINQ in C#, Dependency Injection in .NET, Writing Testable Code in C#, ASP.NET Core, REST APIs in .NET, Minimal APIs in .NET, Entity Framework Core, Dapper, Unit testing for C# Developers, Integration testing in ASP.NET Core, Learn PostgreSQL, Docker for Developers, System Design | the ASP.NET Core and EF Core documentation |
-| 3 | Learn TypeScript, Learn JavaScript | react.dev and its interactive tutorial; the Vite, TanStack Query, Tailwind and Playwright documentation |
-| 4 | SQL Server | Data Engineering Zoomcamp; Databricks Academy's free Data Engineer plan for Delta and Databricks; Astronomer Academy for Airflow; dbt Learn for dbt; `iobruno/data-engineering-labs` for layout, read late |
-| 5 | Event-Driven Architecture, Microservices Architecture, Domain-Driven Design, System Design | the Zoomcamp's streaming module |
-| 6 | AI for .NET Developers and AI Chatbot with RAG in .NET, for the concepts and the comparison | LLM Zoomcamp — Python, pgvector, and a module on measuring retrieval and answer quality; Anthropic's own courses for tool use and evals; the FastAPI documentation |
-| 7 | Authentication and Authorization | OWASP, and the OAuth2 and OIDC specifications |
-| 8 | Azure for Developers, Cloud Architecture in Azure, Kubernetes for Developers, Bicep, OpenTelemetry | Terraform documentation; Microsoft Learn for the Azure services |
-| Practices | Claude Code (Getting Started and Deep Dive), Working with GitHub Copilot, Boosting Developer Productivity with AI, Nailing the Behavioral Interview, Mastering Communication & Collaboration | the weekly reading, below |
+| 0 | Hands-On Learn Linux; Learn Bash; Hands-On Learn Git From Scratch; From Zero to Hero GitHub Actions; From Zero to Hero Working with GitHub Copilot; Getting Started and Deep Dive Claude Code | the `git bisect` and GitHub Actions documentation |
+| 1 | Learn Python; Python Interview Questions | CMU 15-445 for storage, indexes, transactions and recovery — the course behind the two deep-dive modules |
+| 2 | C# Deep Dive, Asynchronous Programming in C#, LINQ in C#, Dependency Injection in .NET, Writing Testable Code in C#, ASP.NET Core, REST APIs in .NET, Minimal APIs in .NET, Entity Framework Core, Dapper, Unit testing for C# Developers, Integration testing in ASP.NET Core, Learn PostgreSQL, Docker for Developers; From Zero to Hero Testing with xUnit in C#; From Zero to Hero Unit testing for C# Developers; From Zero to Hero Test-Driven Development in C#; Hands-On Data Structures & Algorithms in C#; C# Interview Questions | the ASP.NET Core and EF Core documentation |
+| 3 | Getting Started TypeScript; Hands-On Learn TypeScript; Deep Dive TypeScript; Multi-Tenant SaaS App in TypeScript; Learn JavaScript; JavaScript and TypeScript Interview Questions | react.dev and its interactive tutorial; the Vite, TanStack Query, Tailwind and Playwright documentation |
+| 4 | Hands-On Creational, Structural and Behavioral Design Patterns in C#; Getting Started and Deep Dive Event Sourcing in .NET; Getting Started and Deep Dive Modular Monoliths in .NET; Getting Started and Deep Dive Microservices Architecture; From Zero to Hero From Microservices to Modular Monoliths; From Zero to Hero Event-Driven Architecture; Getting Started and Deep Dive Solution Architecture | the refactoring catalogue, and the original Gang of Four book for what the patterns were actually for |
+| 5 | Hands-On System Design for Beginners; Hands-On System Design for Intermediate Engineers; Hands-On Advanced System Design; Hands-On System Design for Azure; From Zero to Hero Cloud Architecture in Azure | Designing Data-Intensive Applications, read alongside; the Azure pricing calculator, which is the part most designs skip |
+| 6 | SQL Server | Data Engineering Zoomcamp; Databricks Academy's free Data Engineer plan for Delta and Databricks; Astronomer Academy for Airflow; dbt Learn for dbt; `iobruno/data-engineering-labs` for layout, read late |
+| 7 | Domain-Driven Design | the Zoomcamp's streaming module. Event-driven architecture and microservices are covered in Phase 4 |
+| 8 | Getting Started AI Agents in C#; Getting Started and Deep Dive Boosting Developer Productivity with AI; Getting Started Model Context Protocol; AI for .NET Developers and AI Chatbot with RAG in .NET, for the concepts and the comparison | LLM Zoomcamp — Python, pgvector, and a module on measuring retrieval and answer quality; Anthropic's own courses for tool use and evals; the FastAPI documentation |
+| 9 | Authentication and Authorization | OWASP, and the OAuth2 and OIDC specifications |
+| 10 | Azure for Developers, Cloud Architecture in Azure, Kubernetes for Developers, Bicep, OpenTelemetry | Terraform documentation; Microsoft Learn for the Azure services |
+| Practices | Nailing the Behavioral Interview; Mastering Communication & Collaboration for Software Engineers; Career Management for Software Engineers; Building a Resume/CV & LinkedIn Profile | the weekly reading, below |
 
 Dometrain is .NET-centred, which used to be a mismatch and is now the point: it carries Phase 2
 outright, and its architecture, security and cloud courses carry the concepts elsewhere. The
 Claude Code courses are not a luxury — using an assistant well and reviewing its output
 critically is requirement 6, and Claude Code is the assistant most often named by product name
-in South African listings. Dometrain still cannot carry Phase 4 or Phase 6; those are the free
+in South African listings. Dometrain still cannot carry Phase 6 or Phase 8; those are the free
 sources.
 
+**On the interview-question courses.** They are in the table because they are cheap and they
+surface gaps. They also rehearse recall, and recall is not what the processes in `research/`
+grade — four to six hours with four to six people, scored on design, code quality, performance
+and test coverage. Watch one, then do the rehearsal practice with a person. A question bank is
+not a rehearsal.
+
 **The three books.** Designing Data-Intensive Applications is the one to read first, because
-storage, partitioning, transactions, batch and stream processing are Phases 1, 4 and 5 in a
+storage, partitioning, transactions, batch and stream processing are Phases 1, 6 and 7 in a
 single volume. Fundamentals of Data Engineering gives the field's map. The Data Warehouse
-Toolkit gives the modelling Phase 4 needs. These outlast every platform on this page.
+Toolkit gives the modelling Phase 6 needs. These outlast every platform on this page.
 
 ## Certifications
 
@@ -501,14 +568,14 @@ at all and **not one named a specific exam code**. One recruiter wrote that cert
 | Phase | Certification | Why it follows from the work |
 |---|---|---|
 | 2 | Azure Data Fundamentals (DP-900) | Already begun. Fundamentals-level, and the Postgres, modelling and storage work covers it |
-| 4 | **Azure Databricks Data Engineer Associate (DP-750)** | The Microsoft badge that matches what I am actually building: Unity Catalog, Lakeflow declarative pipelines, Auto Loader, Delta `OPTIMIZE` and `VACUUM`, Spark UI debugging. Live and bookable; English only for now |
-| 4 | **Databricks Certified Associate Developer for Apache Spark** | The only certification any target posting names. The replatform *is* the preparation: DataFrame API, partitions, shuffles, Spark Connect, tuning |
-| 4 | Databricks Certified Data Engineer Associate | Medallion layers, Delta, batch and streaming pipelines — the phase's project, examined |
-| 4 | Astronomer's Apache Airflow 3 Fundamentals | Narrow and tied to a tool the phase uses daily. Not free: one attempt per purchase, and it is named in zero listings, so it is the first to cut |
-| 5 | Databricks Certified Data Engineer Professional | The depth badge. Sit it after the ingestion service, not before |
-| 6 | Databricks Certified Generative AI Engineer Associate | After the assistant ships with evals gating CI. It matches the stack |
-| 7 | Identity and Access Administrator (SC-300) | After OIDC, the policy layer and the audit log are built and a threat model exists |
-| 8 | **Azure AI Cloud Developer Associate (AI-200)**; HashiCorp Terraform Associate (exam 004) | AI-200 is what replaced AZ-204. Its own skills list is Container Apps, Service Bus, Key Vault, OpenTelemetry and pgvector on Azure Postgres, which is Phases 6 to 8 almost exactly |
+| 6 | **Azure Databricks Data Engineer Associate (DP-750)** | The Microsoft badge that matches what I am actually building: Unity Catalog, Lakeflow declarative pipelines, Auto Loader, Delta `OPTIMIZE` and `VACUUM`, Spark UI debugging. Live and bookable; English only for now |
+| 6 | **Databricks Certified Associate Developer for Apache Spark** | The only certification any target posting names. The replatform *is* the preparation: DataFrame API, partitions, shuffles, Spark Connect, tuning |
+| 6 | Databricks Certified Data Engineer Associate | Medallion layers, Delta, batch and streaming pipelines — the phase's project, examined |
+| 6 | Astronomer's Apache Airflow 3 Fundamentals | Narrow and tied to a tool the phase uses daily. Not free: one attempt per purchase, and it is named in zero listings, so it is the first to cut |
+| 7 | Databricks Certified Data Engineer Professional | The depth badge. Sit it after the ingestion service, not before |
+| 8 | Databricks Certified Generative AI Engineer Associate | After the assistant ships with evals gating CI. It matches the stack |
+| 9 | Identity and Access Administrator (SC-300) | After OIDC, the policy layer and the audit log are built and a threat model exists |
+| 10 | **Azure AI Cloud Developer Associate (AI-200)**; HashiCorp Terraform Associate (exam 004) | AI-200 is what replaced AZ-204. Its own skills list is Container Apps, Service Bus, Key Vault, OpenTelemetry and pgvector on Azure Postgres, which is Phases 8 to 10 almost exactly |
 
 **Two exams this file used to name no longer exist.** AZ-204 retired on 31 July 2026 and AI-102
 retired with it; each page now reads "This certification and the renewal assessment are
@@ -534,8 +601,8 @@ listings and its certificate in none.
 
 ## What this curriculum still will not prove
 
-Kept here for the same reason `NON-CLAIMS.md` is kept at top level. Phases 0–8 close none of
-these; Phase 9 is the only thing that touches them, which is why it is on the page.
+Kept here for the same reason `NON-CLAIMS.md` is kept at top level. Phases 0–10 close none
+of these; Phase 11 is the only thing that touches them, which is why it is on the page.
 
 - Working under real money and real consequences at any scale an employer would call scale
 - Operating Spark or Kafka as a platform for other people at the scale the postings name.
