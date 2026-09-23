@@ -268,7 +268,7 @@ Ordered, not scheduled. Each one is finished when its exit test passes — cold,
 on a day I did not cherry-pick. Moving on early is the failure mode this table exists to
 prevent, and it is the only way the plan can actually fail.
 
-### Phase 0 — Shell, git, and a green badge
+### Phase 0 — Shell, Linux, git, and a green badge
 
 The repo already supports this via `tools/shelltest.py` and the note in `CONTRIBUTING.md`.
 
