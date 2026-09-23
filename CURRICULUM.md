@@ -200,6 +200,7 @@ is doing underneath.
 | Ingestion | A replay from offset zero reproduces gold byte for byte |
 | Product | Figures match Treasury's published ones and the API's own totals |
 | Assistant | The eval set passes, with the judge's limits written down |
+| Detection | Features are bit-identical across the streaming and batch paths, no feature at time *t* reads an event after *t*, and a replay reproduces every alert decision. **Not** "the model is good", which is a judgement, and the write-up says so |
 
 ### The rule that keeps it honest
 
@@ -221,13 +222,21 @@ should be sent to the third.
 |---|---|---|---|
 | 1 | `worked-examples` | Learning rate, and that the standard is enforced rather than claimed — modules, challenge ladders, green CI on every push | This repo |
 | 2 | `parity` | Comparing two SQL-queryable sources and producing evidence a sceptic accepts. One posting asks for "parity evidence" by name | A PyPI package and a CLI |
-| 3 | `platform` | The data depth: a shipped T-SQL warehouse replatformed to PySpark and Delta, plus a change-capture ingestion service with replay | A repo, and a runbook a stranger can follow |
-| 4 | `product` | Full-stack and applied AI: an ASP.NET Core API, a React explorer, an assistant that cites its rows, OIDC, deployed and operated | A repo, a NuGet package, and a live URL |
-| 5 | Reserved | A fifth, at the overlap of data and security. Decided by research, not by appetite — see `research/` | To be decided |
+| 3 | The replatform | A shipped T-SQL warehouse rebuilt on PySpark and Delta, reconciled to the cent | Part of `platform`, with a runbook a stranger can follow |
+| 4 | The ingestion and detection service | Change capture into a replayable stream, and detection rules scored over it under a real review budget | Part of `platform`, with an evaluation report |
+| 5 | `product` | Full-stack and applied AI: an ASP.NET Core API, a React explorer, an assistant that cites its rows, OIDC, deployed and operated | A repo, a NuGet package, and a live URL |
 
-The fifth is deliberately empty rather than filled with something plausible. If it is not
-worth building by the four tests above, `platform` splits into the replatform and the ingestion
-service, which is honest because they have different oracles and different readers.
+Three and four share a repository and are listed apart because they have different oracles and
+different readers. That is honest; pretending they are one thing, or inventing a fifth system to
+reach five, would not be.
+
+**There was going to be a fraud detection system, and there is not.** The research is in
+`research/2026-09-23-fraud-and-bank-apis.md`. Fraud detection is real engineering and most of it
+is data engineering, but it fails the fourth test on this page: labels arrive up to 120 days
+late, are missing entirely for everything the system blocked, and come from a budgeted human
+process that only looks where the model already pointed. There is no oracle, so a fifth system
+built on it could not be checked. What survives is the engineering, and that is now a graded
+deep-dive in Phase 9 rather than a repository of its own.
 
 ## The daily loop
 
@@ -371,7 +380,7 @@ rather than in front of a web app.
 
 | Modules | Project | Exit test |
 |---|---|---|
-| Append-only logs; partitioning; offsets and consumer groups; delivery semantics and idempotent sinks; watermarks and late data; change data capture; schema evolution; serialisation formats; event-driven architecture, and when to split a service; system design — stating a trade-off, writing it down, and defending it aloud; benchmarking honestly | The ingestion service: SQL Server CDC and Municipal Money polling into Redpanda, landed in Delta by idempotent merge; offsets, replay, backfill versus live, late data, schema drift, dead letters, a job-status API; the product switches to reading gold; Service Bus or Event Hubs documented as the cloud shape; a benchmark harness and a written analysis of where it falls over | A replay from offset zero reproduces gold byte for byte; and a benchmark I would defend to someone who disagreed with it, including its limitations |
+| Append-only logs; partitioning; offsets and consumer groups; delivery semantics and idempotent sinks; watermarks and late data; change data capture; schema evolution; serialisation formats; event-driven architecture, and when to split a service; system design — stating a trade-off, writing it down, and defending it aloud; benchmarking honestly | The ingestion service: SQL Server CDC and Municipal Money polling into Redpanda, landed in Delta by idempotent merge; offsets, replay, backfill versus live, late data, schema drift, dead letters, a job-status API; the product switches to reading gold; Service Bus or Event Hubs documented as the cloud shape; a synthetic South African transaction generator as a second source — AMLSim or Sparkov, in rand over EFT, RTC and PayShap, emitting Investec's Private Bank transaction schema, with prevalence calibrated to SABRIC's published statistics; a benchmark harness and a written analysis of where it falls over | A replay from offset zero reproduces gold byte for byte; and a benchmark I would defend to someone who disagreed with it, including its limitations |
 
 ### Phase 8 — Applied AI
 
@@ -386,7 +395,7 @@ knowing, with evidence, whether the answers got worse.
 
 | Modules | Project | Exit test |
 |---|---|---|
-| Authentication versus authorisation; OAuth2, OIDC, Entra ID and Cognito; request signing; secrets and Key Vault; the OWASP failures that actually recur; privacy engineering and POPIA; audit logging; supply chain — dependency scanning and SBOMs as CI jobs; threat modelling. Optional deep-dive: detection as code | Across both systems: OIDC login via Entra ID or Keycloak; API keys and request signing for the public API; a policy layer for who sees what; an audit log; secrets in Key Vault or a local vault; SBOM and dependency scanning in CI; a threat model of the assistant; POPIA masking verified on the replatform. Optional: detection rules over the audit log, tested in CI | I find a real authorisation bug in my own policy layer by writing a test that should have existed |
+| Authentication versus authorisation; OAuth2, OIDC, Entra ID and Cognito; request signing; secrets and Key Vault; the OWASP failures that actually recur; privacy engineering and POPIA; audit logging; supply chain — dependency scanning and SBOMs as CI jobs; threat modelling; **`deep-dive`: detection as code** — Sigma and Elastic's detection-rules as the security shape, rules as pure functions in version control, unit-tested against replayed events and backtested in CI, scored over the audit log *and* the transaction stream, with point-in-time correctness and training-serving parity as tests rather than aspirations, and precision at a review budget rather than accuracy | Across both systems: OIDC login via Entra ID or Keycloak; API keys and request signing for the public API; a policy layer for who sees what; an audit log; secrets in Key Vault or a local vault; SBOM and dependency scanning in CI; a threat model of the assistant; POPIA masking verified on the replatform. Detection rules over the audit log **and** the synthetic transaction stream: rules as pure functions, unit-tested and backtested in CI; a point-in-time-correct feature layer with velocity windows; an automated training-serving skew test; an alert queue with a fixed daily review budget; and an evaluation report giving precision at k per entity, a stated cost ratio, the break-even precision, and a written section on the counterfactual gap | I find a real authorisation bug in my own policy layer by writing a test that should have existed. And a deliberately leaky feature join is caught by a point-in-time test that existed first, with the inflated score and the honest score both published |
 
 ### Phase 10 — Operate it
 
@@ -633,6 +642,8 @@ of these; Phase 11 is the only thing that touches them, which is why it is on th
   Databricks bet still holds, and which certifications are real. It says the stack is right
 - `research/2026-09-23-full-stack-tooling.md` — React against Angular, .NET against Python, and
   the counts behind the language split above
+- `research/2026-09-23-fraud-and-bank-apis.md` — which South African bank APIs are actually
+  open, what POPIA permits, and why fraud detection is a deep-dive here rather than a system
 - `research/2026-09-22-data-role-example.md` — a fourth posting, the example of what data roles
   pay for
 - `research/2026-09-17-openai-target-roles.md` — the postings the first version of this plan

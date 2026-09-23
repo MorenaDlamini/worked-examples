@@ -12,6 +12,9 @@ This repository does **not** demonstrate:
 - Scale. Nothing here has met a dataset large enough to be interesting.
 - Operating a data platform at the scale the postings name. The build repositories are the
   laptop-and-one-VM-sized versions of what those systems do.
+- A fraud detection system that works. I have built the engineering around one and can say
+  which parts of it are correct and which are judgement. I have no experience of SAS AML,
+  which is what South African banks actually advertise for.
 - That I can do any of this without an assistant available. That is what the
   reproduce-from-scratch check in `AI_USAGE.md` exists to counter, imperfectly.
 
