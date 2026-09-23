@@ -24,11 +24,12 @@ Taken from postings read in full — see `research/` — and reduced to what the
 list is mostly about verbs: build, operate, integrate, review, explain.
 
 1. Production experience, stated in years
-2. Python as the primary backend, typed and tested — `pytest`, Pyright, `uv`
+2. A typed, tested backend in a language the market names — C# and ASP.NET Core, or Python
 3. Designing and operating REST APIs, including auth, idempotency and job status
 4. Docker, CI/CD, and a cloud; AWS and Azure are both named
 5. Integrating LLM features: calling model APIs, retrieval-augmented generation, vector search
-6. Using coding assistants, and critically reviewing what they produce
+6. Using coding assistants, and critically reviewing what they produce — named in a fifth of
+   South African listings and a third of remote ones, always with the review clause attached
 7. Working from specs, design docs and ADRs; code review; clear communication; mentoring
 8. Relational modelling on Postgres; Spark, Delta, and replatforming legacy SQL with parity
    evidence
@@ -50,9 +51,30 @@ Three things the postings made me change my mind about:
 - **Data is the differentiator.** The one posting that pays for depth pays for Spark, Delta,
   and replatforming legacy SQL with proof that the numbers still agree.
 
-The stack: Python, TypeScript and React, Postgres, PySpark and Delta, DuckDB for judgment.
-Azure first, because the data posting names its services; AWS equivalents on every cloud
-module, because the other two name it.
+## What the plan is standing on
+
+Five years of production C# and ASP.NET Core. The first version of this file left that out and
+planned a Python web backend instead, which was a mistake twice over: it threw away the only
+production depth I have, and it ignored the market I am standing in. C# and .NET is the largest
+single backend ask in South Africa — a third of listings, ahead of Java and well ahead of
+Python — while Python is under a fifth locally
+(`research/2026-09-23-full-stack-tooling.md`).
+
+So the languages divide by job, and the rule is one line:
+
+**C# and ASP.NET Core build the product. Python is for data and AI. TypeScript and React are
+the front.**
+
+That is not a compromise. It is what the evidence says a full-stack engineer in Johannesburg
+who wants the data depth should actually be: a .NET product engineer whose data and AI work is
+in Python, which is the only serious language for either. Python still carries Phases 1, 4, 5
+and 6 — PySpark, the ingestion service, its FastAPI job-status API, and the assistant — so the
+Python-backend experience the postings name gets built where it belongs rather than bolted onto
+a web app.
+
+The stack: C# and ASP.NET Core with Postgres; TypeScript and React with Vite; Python with
+PySpark, Delta and FastAPI; DuckDB for judgment. Azure throughout, with AWS equivalents noted
+on every cloud module because two of the three postings name it.
 
 ## Depth
 
@@ -61,7 +83,7 @@ Four pillars is breadth, and depth over breadth is the rule. So:
 | Pillar | Tier I am aiming at | Where the proof lives |
 |---|---|---|
 | Data | `deep-dive` — the one to go unreasonably deep in | `platform`: replatform, parity, ingestion |
-| Full-stack | `build-it` — defendable, not distinguished | `product`: API, explorer, SDK |
+| Full-stack | `build-it` — defendable, not distinguished | `product`: the ASP.NET Core API, the React explorer, the client package |
 | Applied AI | `build-it`, with evals as the deep part | the assistant inside `product`, evals gating CI |
 | Security | judgment; deep only where it meets data | OIDC, policy, audit log, POPIA across both systems |
 
@@ -148,8 +170,8 @@ the Municipal Money API. Nobody has built a good explorer over it with an assist
 
 - Where a municipality's money comes from and goes, audit outcomes, comparisons across years
   and peers. Public site.
-- A typed Python client library, `municipal-money`, on PyPI.
-- A REST API with OIDC login for saved views.
+- A typed client package, `MunicipalMoney.Client`, on NuGet.
+- An ASP.NET Core REST API with OIDC login for saved views.
 - An assistant that answers questions with citations to the rows and the budget documents it
   retrieved, with evals gating deploys.
 
@@ -241,19 +263,37 @@ the last clause — the explanation, to a person.
 
 ### Phase 2 — HTTP, data, and the first slice
 
-Where `product` starts.
+Where `product` starts, in C#.
+
+Five years of shipping C# is not the same as depth in it, so the language modules here are real
+modules and not revision. Async, LINQ, dependency injection and testable design are the four
+that separate someone who writes C# from someone who is good at it, and all four are things I
+have used for years without ever being examined on.
 
 | Modules | Project | Exit test |
 |---|---|---|
-| HTTP semantics; TCP, DNS, TLS and timeouts; REST and its arguments; JSON and schemas; FastAPI; retries, backoff and idempotency; OAuth2 and OIDC as protocols; SQL; Postgres; indexes; transactions and isolation levels; reading a query plan; data modelling; schema migrations; containers | Product backend v0: the `municipal-money` typed client on PyPI; a FastAPI service loading it into Postgres with migrations; a worker with idempotency keys and a job-status endpoint driving the loads; an OpenAPI spec; a generated SDK; a CLI; a Dockerfile | Someone else can install it from my README and pull one municipality's budget, without asking me anything |
+| HTTP semantics; TCP, DNS, TLS and timeouts; REST and its arguments; JSON and schemas; ASP.NET Core minimal APIs; C# depth — `async`/`await` properly, LINQ, dependency injection, nullable reference types; xUnit and integration testing in ASP.NET Core; Entity Framework Core, and when Dapper is the better answer; background processing; retries, backoff and idempotency; OAuth2 and OIDC as protocols; SQL; Postgres; indexes; transactions and isolation levels; reading a query plan; data modelling; migrations; containers | Product backend v0: `MunicipalMoney.Client` on NuGet; an ASP.NET Core service loading it into Postgres with EF Core migrations; a background worker with idempotency keys and a job-status endpoint driving the loads; an OpenAPI spec; a generated TypeScript client for Phase 3; a CLI; a Dockerfile | Someone else can install it from my README and pull one municipality's budget, without asking me anything |
 
 ### Phase 3 — The full-stack half
 
 | Modules | Project | Exit test |
 |---|---|---|
-| JavaScript fundamentals; TypeScript; the type system as a design tool; React; state; data fetching; forms and validation; accessibility; a small component library; build tooling; end-to-end testing | The explorer: pick a municipality, see revenue, spend and audit outcome, compare across years and peers; honest error surfaces; Playwright tests; an `AGENTS.md` a stranger's assistant could work from | The explorer surfaces a server error in a way a stranger could act on, and that error is reachable by keyboard and screen reader |
+| JavaScript fundamentals; TypeScript; the type system as a design tool; React; server state with TanStack Query and client state with Zustand, and why they are different problems; forms and validation; accessibility; a small design system — tokens, accessible primitives, Tailwind CSS, and Storybook as its documentation; build tooling with Vite; Vitest for unit and component tests, Playwright for end to end | The explorer: pick a municipality, see revenue, spend and audit outcome, compare across years and peers; honest error surfaces; Playwright tests; an `AGENTS.md` a stranger's assistant could work from | The explorer surfaces a server error in a way a stranger could act on, and that error is reachable by keyboard and screen reader |
 
 This phase is what makes "full-stack" a claim I can defend rather than a line on a CV.
+
+**React and Vite, not Next.js.** react.dev recommends starting with a framework. The hiring
+market does not: Next.js was named in one of 64 remote listings and four of 105 South African
+ones, and of the 23 remote listings naming React, 22 named no meta-framework at all. Server
+Components appeared in none of the 169 listing bodies read. Vite's React plugin outdownloads
+Next on npm. The explorer is a single-page app served by the ASP.NET Core API, and the reasons
+go in `decisions/` during this phase, because this is the kind of choice an interviewer probes.
+
+**Not Angular, and here is the trigger to revisit.** Angular is genuinely co-equal with React
+in South Africa — 48% of listings against 47% — so the instinct to learn both is sound, and I
+am still not doing it. Remotely Angular is 5%, most South African listings say Angular *or*
+React, and a second framework costs a whole phase that the data pillar needs more. Revisit only
+if I am turned down twice for a role where Angular was the stated blocker.
 
 ### Phase 4 — Data engineering: the replatform
 
@@ -261,7 +301,7 @@ The deep phase. Everything here is the day job of the data posting in `research/
 
 | Modules | Project | Exit test |
 |---|---|---|
-| SQL depth on SQL Server — T-SQL, stored procedures, query plans, and the dialect differences that break a migration; PySpark and its execution model — partitions, shuffles, the Spark UI; Spark SQL; Delta Lake, with Iceberg as the comparison; Medallion layers and what each may contain; dimensional modelling and Data Vault, and when each is wrong; replatforming T-SQL to Spark SQL with parity evidence; orchestration with Airflow, ADF as the Azure shape; transformation as code, with tests; data quality and reconciliation; governance, PII tagging and POPIA; lineage with OpenLineage; catalog concepts — Hive Metastore, Unity Catalog; DuckDB and "does this need distribution"; Parquet and columnar storage; cost per GB stored and scanned | The replatform: SQL Server in Docker with the shipped OLTP, warehouse and ETL procedures; bronze to gold on Delta with local Spark or Databricks free edition; silver as Data Vault or star, decision recorded; Airflow; tested transforms; `parity` v1 comparing gold to the shipped warehouse; OpenLineage; PII masking on customer data; a cutover runbook; a DuckDB-versus-Spark benchmark on the same workload, with cost | The parity report is accepted by someone who wants it to be wrong; a stakeholder-shaped question is answered from gold and traced to the raw rows; a stranger runs the migration from my runbook without asking me anything |
+| SQL depth on SQL Server — T-SQL, stored procedures, query plans, and the dialect differences that break a migration; PySpark and its execution model — partitions, shuffles, the Spark UI; Spark SQL; Delta Lake, with Iceberg as the comparison; Medallion layers and what each may contain; dimensional modelling and Data Vault, and when each is wrong; replatforming T-SQL to Spark SQL with parity evidence; Spark Declarative Pipelines, open source in Spark 4.1 and therefore learnable on local Spark; Spark 4's ANSI SQL mode, on by default, and what it silently breaks in a migration; orchestration with Airflow, ADF as the Azure shape; transformation as code, with tests; data quality and reconciliation; governance, PII tagging and POPIA; lineage with OpenLineage; catalogs — Unity Catalog and the Iceberg REST Catalog, with Hive Metastore as the legacy it now is; Microsoft Fabric — OneLake, shortcuts, mirroring Unity Catalog, Direct Lake, and why Microsoft's own guidance keeps the pipeline in Databricks; DuckDB and "does this need distribution"; Parquet and columnar storage; cost per GB stored and scanned | The replatform: SQL Server in Docker with the shipped OLTP, warehouse and ETL procedures; bronze to gold on Delta with local Spark or Databricks free edition; silver as Data Vault or star, decision recorded; Airflow; tested transforms; `parity` v1 comparing gold to the shipped warehouse; OpenLineage; PII masking on customer data; a cutover runbook; a DuckDB-versus-Spark benchmark on the same workload, with cost | The parity report is accepted by someone who wants it to be wrong; a stakeholder-shaped question is answered from gold and traced to the raw rows; a stranger runs the migration from my runbook without asking me anything |
 
 The "does this need distribution" module is already in the `horizon/` queue. It belongs here.
 
@@ -279,6 +319,11 @@ Databricks; those come from Databricks Academy's free Data Engineer plan.
 
 ### Phase 5 — Data infrastructure: the ingestion service
 
+The ingestion service is Python, and its job-status API is FastAPI. That is deliberate: the
+data posting asks for "REST APIs using FastAPI or equivalent" in the same breath as
+"authentication, idempotency and job-status functionality", so FastAPI belongs on the data side
+rather than in front of a web app.
+
 | Modules | Project | Exit test |
 |---|---|---|
 | Append-only logs; partitioning; offsets and consumer groups; delivery semantics and idempotent sinks; watermarks and late data; change data capture; schema evolution; serialisation formats; event-driven architecture, and when to split a service; system design — stating a trade-off, writing it down, and defending it aloud; benchmarking honestly | The ingestion service: SQL Server CDC and Municipal Money polling into Redpanda, landed in Delta by idempotent merge; offsets, replay, backfill versus live, late data, schema drift, dead letters, a job-status API; the product switches to reading gold; Service Bus or Event Hubs documented as the cloud shape; a benchmark harness and a written analysis of where it falls over | A replay from offset zero reproduces gold byte for byte; and a benchmark I would defend to someone who disagreed with it, including its limitations |
@@ -287,7 +332,7 @@ Databricks; those come from Databricks Academy's free Data Engineer plan.
 
 | Modules | Project | Exit test |
 |---|---|---|
-| Model API fundamentals — messages, structured outputs, tool use, streaming; retrieval-augmented generation and vector search with pgvector, retrieval measured separately from generation; agents and tool orchestration, and when a plain function is better; **evals** — golden sets, LLM-as-judge and its limits, regression as a CI gate; guardrails and prompt injection in systems that read untrusted text; local serving with Ollama or vLLM; cost, latency and caching; observability of LLM systems; versioning prompts and models, serving an endpoint, monitoring it; working with coding assistants critically — `AI_USAGE.md` extended from learning to building | The assistant inside the product: question to tool call or generated SQL to answer, with row citations; pgvector retrieval over municipal budget documents and Treasury reports; a golden eval set and judge run in CI; injection tests using poisoned document text; hosted API or local model; a cost and latency panel; pinned prompt and model versions | The eval suite catches a regression I introduce on purpose before I notice it by hand; and an injection planted in stored data is blocked by a test that existed first |
+| Model API fundamentals — messages, structured outputs, tool use, streaming; retrieval-augmented generation and vector search with pgvector, retrieval measured separately from generation; agents and tool orchestration, and when a plain function is better; **evals** — golden sets, LLM-as-judge and its limits, regression as a CI gate; guardrails and prompt injection in systems that read untrusted text; local serving with Ollama or vLLM; cost, latency and caching; observability of LLM systems; versioning prompts and models, serving an endpoint, monitoring it; working with coding assistants critically — `AI_USAGE.md` extended from learning to building | The assistant: a Python service behind the ASP.NET Core product, called over HTTP — a real service boundary, and the microservice shape one posting names. Question to tool call or generated SQL to answer, with row citations; pgvector retrieval over municipal budget documents and Treasury reports; a golden eval set and judge run in CI; injection tests using poisoned document text; hosted API or local model; a cost and latency panel; pinned prompt and model versions | The eval suite catches a regression I introduce on purpose before I notice it by hand; and an injection planted in stored data is blocked by a test that existed first |
 
 Evals are the deep module. Anyone can call a model API; the skill the roles pay for is
 knowing, with evidence, whether the answers got worse.
@@ -417,17 +462,21 @@ was skipped.
 |---|---|---|
 | 0 | Learn Bash, Learn Linux, Learn Git From Scratch, GitHub Actions | — |
 | 1 | Learn Python, Data Structures & Algorithms | CMU 15-445 for storage, indexes, transactions and recovery — the course behind the two deep-dive modules |
-| 2 | Learn PostgreSQL, Docker for Developers, Docker Compose, Authentication and Authorization, System Design | FastAPI documentation |
-| 3 | Learn TypeScript, Learn JavaScript | react.dev, including its interactive tutorial |
+| 2 | C# Deep Dive, Asynchronous Programming in C#, LINQ in C#, Dependency Injection in .NET, Writing Testable Code in C#, ASP.NET Core, REST APIs in .NET, Minimal APIs in .NET, Entity Framework Core, Dapper, Unit testing for C# Developers, Integration testing in ASP.NET Core, Learn PostgreSQL, Docker for Developers, System Design | the ASP.NET Core and EF Core documentation |
+| 3 | Learn TypeScript, Learn JavaScript | react.dev and its interactive tutorial; the Vite, TanStack Query, Tailwind and Playwright documentation |
 | 4 | SQL Server | Data Engineering Zoomcamp; Databricks Academy's free Data Engineer plan for Delta and Databricks; Astronomer Academy for Airflow; dbt Learn for dbt; `iobruno/data-engineering-labs` for layout, read late |
 | 5 | Event-Driven Architecture, Microservices Architecture, Domain-Driven Design, System Design | the Zoomcamp's streaming module |
-| 6 | — | LLM Zoomcamp — Python, pgvector, and a module on measuring retrieval and answer quality; Anthropic's own courses for tool use and evals |
+| 6 | AI for .NET Developers and AI Chatbot with RAG in .NET, for the concepts and the comparison | LLM Zoomcamp — Python, pgvector, and a module on measuring retrieval and answer quality; Anthropic's own courses for tool use and evals; the FastAPI documentation |
 | 7 | Authentication and Authorization | OWASP, and the OAuth2 and OIDC specifications |
 | 8 | Azure for Developers, Cloud Architecture in Azure, Kubernetes for Developers, Bicep, OpenTelemetry | Terraform documentation; Microsoft Learn for the Azure services |
-| Practices | Nailing the Behavioral Interview, Mastering Communication & Collaboration | the weekly reading, below |
+| Practices | Claude Code (Getting Started and Deep Dive), Working with GitHub Copilot, Boosting Developer Productivity with AI, Nailing the Behavioral Interview, Mastering Communication & Collaboration | the weekly reading, below |
 
-Dometrain is .NET-centred, so its architecture, security and cloud courses are taken for the
-concepts and not the code. It cannot carry Phase 4 or Phase 6; those are the free sources.
+Dometrain is .NET-centred, which used to be a mismatch and is now the point: it carries Phase 2
+outright, and its architecture, security and cloud courses carry the concepts elsewhere. The
+Claude Code courses are not a luxury — using an assistant well and reviewing its output
+critically is requirement 6, and Claude Code is the assistant most often named by product name
+in South African listings. Dometrain still cannot carry Phase 4 or Phase 6; those are the free
+sources.
 
 **The three books.** Designing Data-Intensive Applications is the one to read first, because
 storage, partitioning, transactions, batch and stream processing are Phases 1, 4 and 5 in a
@@ -444,26 +493,44 @@ list; exactly one is named in a posting at all, and there as a nice-to-have.
 Cloud is Azure. Where Microsoft's own path has moved away from what I am building, I follow
 what I am building.
 
+How little they matter, measured: of 28 listings read end to end, six mentioned a certification
+at all and **not one named a specific exam code**. One recruiter wrote that certifications
+"are valued rather than required and are achievable after appointment"
+(`research/2026-09-23-data-stack-and-certifications.md`).
+
 | Phase | Certification | Why it follows from the work |
 |---|---|---|
 | 2 | Azure Data Fundamentals (DP-900) | Already begun. Fundamentals-level, and the Postgres, modelling and storage work covers it |
-| 4 | **Databricks Certified Associate Developer for Apache Spark, Python** | The only certification any target posting names. The replatform *is* the preparation: DataFrame API, partitions, shuffles, Spark Connect, tuning |
+| 4 | **Azure Databricks Data Engineer Associate (DP-750)** | The Microsoft badge that matches what I am actually building: Unity Catalog, Lakeflow declarative pipelines, Auto Loader, Delta `OPTIMIZE` and `VACUUM`, Spark UI debugging. Live and bookable; English only for now |
+| 4 | **Databricks Certified Associate Developer for Apache Spark** | The only certification any target posting names. The replatform *is* the preparation: DataFrame API, partitions, shuffles, Spark Connect, tuning |
 | 4 | Databricks Certified Data Engineer Associate | Medallion layers, Delta, batch and streaming pipelines — the phase's project, examined |
-| 4 | Astronomer's Apache Airflow 3 Fundamentals; dbt's analytics engineering certificate | Cheap, narrow, and tied to two tools the phase uses daily |
+| 4 | Astronomer's Apache Airflow 3 Fundamentals | Narrow and tied to a tool the phase uses daily. Not free: one attempt per purchase, and it is named in zero listings, so it is the first to cut |
 | 5 | Databricks Certified Data Engineer Professional | The depth badge. Sit it after the ingestion service, not before |
-| 6 | Databricks Certified Generative AI Engineer Associate, or Azure AI Engineer (AI-102) | After the assistant ships with evals gating CI. The first matches the stack; the second matches the cloud |
+| 6 | Databricks Certified Generative AI Engineer Associate | After the assistant ships with evals gating CI. It matches the stack |
 | 7 | Identity and Access Administrator (SC-300) | After OIDC, the policy layer and the audit log are built and a threat model exists |
-| 8 | Azure Developer Associate (AZ-204); HashiCorp Terraform Associate | After both systems are deployed to Azure with Terraform and instrumented |
+| 8 | **Azure AI Cloud Developer Associate (AI-200)**; HashiCorp Terraform Associate (exam 004) | AI-200 is what replaced AZ-204. Its own skills list is Container Apps, Service Bus, Key Vault, OpenTelemetry and pgvector on Azure Postgres, which is Phases 6 to 8 almost exactly |
 
-**What I am deliberately not taking.** DP-203, the Azure Data Engineer certificate, was retired
-in March 2025. Its replacement, DP-700, examines Microsoft Fabric — a different platform from
-the Spark, Delta and Databricks stack this plan is built on. Taking it would mean learning
-Fabric to pass an exam rather than because the work needs it, which is the exact inversion this
-page exists to prevent. If an employer asks for the Microsoft data badge specifically, that is
-the moment to reconsider, and not before.
+**Two exams this file used to name no longer exist.** AZ-204 retired on 31 July 2026 and AI-102
+retired with it; each page now reads "This certification and the renewal assessment are
+retired." AI-200 is the stated successor to AZ-204 and is the one in the table above.
+
+**There is no C# certification worth taking.** Microsoft does not examine the language, and
+AZ-204, the nearest thing to a .NET developer badge, is gone. The evidence for C# is the
+product: an ASP.NET Core service with tests, running in production, reviewed by someone else.
+That is a better credential than any exam would have been.
+
+**On Fabric, correcting what this page used to say.** An earlier version claimed DP-700
+examines "a different platform" from Spark and Delta. That was wrong, and it was wrong because
+I trusted a summary instead of the source. Fabric's lakehouse *is* Delta Lake, its Data
+Engineering workload *is* Apache Spark, and DP-700's own skills list includes transforming data
+with PySpark, Spark structured streaming, and configuring Airflow. Fabric is a different
+packaging of the same engine. I am still not sitting DP-700, because DP-750 examines the exact
+platform I build on and Fabric gets one module rather than a certification. But the reason is
+now preference, not a platform gap.
 
 AZ-900 is below where I already am. AZ-305 and Kubernetes certificates are beyond what either
-system needs.
+system needs. dbt's certificate is optional at best: dbt appeared in one of 105 South African
+listings and its certificate in none.
 
 ## What this curriculum still will not prove
 
@@ -495,6 +562,10 @@ these; Phase 9 is the only thing that touches them, which is why it is on the pa
 
 - `research/2026-09-22-sa-target-roles.md` — the three postings the requirements were reduced
   from, with URLs
+- `research/2026-09-23-data-stack-and-certifications.md` — whether the Spark, Delta and
+  Databricks bet still holds, and which certifications are real. It says the stack is right
+- `research/2026-09-23-full-stack-tooling.md` — React against Angular, .NET against Python, and
+  the counts behind the language split above
 - `research/2026-09-22-data-role-example.md` — a fourth posting, the example of what data roles
   pay for
 - `research/2026-09-17-openai-target-roles.md` — the postings the first version of this plan
