@@ -2,7 +2,8 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
+from harness import REPO, load, sh  # noqa: F401
+
 
 def test_records_survive_a_reopen(solution, tmp_path):
     mod = load(solution)
@@ -25,6 +26,6 @@ def test_each_record_is_checksummed(solution, tmp_path):
     path.write_bytes(bytes(raw))
     try:
         out = list(mod.Wal(path).read())
-    except Exception:
+    except Exception:  # noqa: BLE001
         return
     assert out != [b"payload"], "a corrupted record must not read back as though it were fine"

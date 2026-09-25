@@ -2,7 +2,8 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
+from harness import REPO, load, sh  # noqa: F401
+
 
 def test_a_torn_tail_costs_only_the_partial_record(solution, tmp_path):
     mod = load(solution)

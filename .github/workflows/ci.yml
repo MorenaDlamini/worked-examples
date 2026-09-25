@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pytest ruff pyyaml hypothesis
+      - run: pip install pytest ruff==0.16.9 pyyaml hypothesis
       - name: Run every module's tests
         run: pytest modules -q
       - name: Run every started challenge stage

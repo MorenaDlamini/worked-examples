@@ -2,11 +2,11 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
-
 import shutil
 import subprocess
+
 import pytest
+from harness import REPO, load, sh  # noqa: F401
 
 BIG = 400_000
 

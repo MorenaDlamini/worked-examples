@@ -2,9 +2,9 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
-
 import re
+
+from harness import REPO, load, sh  # noqa: F401
 
 
 def test_a_property_test_exists_and_uses_given(solution):
@@ -17,5 +17,5 @@ def test_a_property_test_exists_and_uses_given(solution):
 def test_the_found_case_was_written_down(solution):
     notes = "\n".join(p.read_text() for p in solution.glob("*.md"))
     assert notes.strip(), "record the case Hypothesis found and the fix, in a markdown file"
-    assert re.search(r"shrink|shrunk|minimal", notes, re.I), \
+    assert re.search(r"shrink|shrunk|minimal", notes, re.IGNORECASE), \
         "record the shrunk case, which is the useful part"

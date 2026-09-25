@@ -2,7 +2,8 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
+from harness import REPO, load, sh  # noqa: F401
+
 
 def test_exits_two_and_counts_the_reject(solution, fixtures):
     r = sh(solution / "run.sh", str(fixtures / "sample.log"))

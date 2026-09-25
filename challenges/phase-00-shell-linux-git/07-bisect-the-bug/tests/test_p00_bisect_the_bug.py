@@ -13,7 +13,7 @@ def test_a_finding_was_written(solution):
     notes = list(solution.glob("*.md"))
     assert notes, "write up what you found, in a markdown file in solution/"
     text = "\n".join(p.read_text() for p in notes)
-    assert re.search(r"bisect", text, re.I), "say which command you used"
+    assert re.search(r"bisect", text, re.IGNORECASE), "say which command you used"
     assert re.search(r"\b[0-9a-f]{7,40}\b", text), "name the commit"
 
 

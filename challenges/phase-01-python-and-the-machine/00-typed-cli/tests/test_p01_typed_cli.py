@@ -2,10 +2,10 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
-
 import subprocess
 import sys
+
+from harness import REPO, load, sh  # noqa: F401
 
 
 def test_the_package_imports(solution):

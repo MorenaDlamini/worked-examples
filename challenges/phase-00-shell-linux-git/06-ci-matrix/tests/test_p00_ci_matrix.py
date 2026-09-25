@@ -6,7 +6,6 @@ Skipped until the stage is started. See challenges/README.md.
 import re
 
 import pytest
-
 from harness import REPO
 
 yaml = pytest.importorskip("yaml", reason="pyyaml not installed")

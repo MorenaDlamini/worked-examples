@@ -2,7 +2,8 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
+from harness import REPO, load, sh  # noqa: F401
+
 
 def test_good_line_gives_three_tab_separated_fields(solution):
     r = sh(solution / "run.sh", stdin="2026-09-01T08:00:01Z INFO api request ok\n")

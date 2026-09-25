@@ -2,7 +2,8 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
+from harness import REPO, load, sh  # noqa: F401
+
 
 def test_two_groups_read_independently(solution, tmp_path):
     mod = load(solution)

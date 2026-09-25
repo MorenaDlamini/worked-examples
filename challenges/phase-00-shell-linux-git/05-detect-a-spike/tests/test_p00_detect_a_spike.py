@@ -2,7 +2,8 @@
 
 Skipped until the stage is started. See challenges/README.md.
 """
-from harness import sh, load, REPO  # noqa: F401
+from harness import REPO, load, sh  # noqa: F401
+
 
 def test_a_quiet_file_reports_nothing(solution, tmp_path):
     quiet = tmp_path / "quiet.log"
@@ -14,8 +15,8 @@ def test_a_quiet_file_reports_nothing(solution, tmp_path):
 
 def test_a_spike_is_found(solution, tmp_path):
     noisy = tmp_path / "noisy.log"
-    lines = ["2026-09-01T08:00:%02dZ INFO api ok" % i for i in range(30)]
-    lines += ["2026-09-01T08:01:%02dZ ERROR api boom" % i for i in range(30)]
+    lines = [f"2026-09-01T08:00:{i:02d}Z INFO api ok" for i in range(30)]
+    lines += [f"2026-09-01T08:01:{i:02d}Z ERROR api boom" for i in range(30)]
     noisy.write_text("\n".join(lines) + "\n")
     r = sh(solution / "run.sh", str(noisy), "0.5")
     assert r.returncode == 0, r.stderr
